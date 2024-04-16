@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/shop/thanh_toan")
+@RequestMapping("/thanh_toan")
 public class ThanhToanShopController {
     @Autowired
     private GioHangChiTietService gioHangChiTietService;

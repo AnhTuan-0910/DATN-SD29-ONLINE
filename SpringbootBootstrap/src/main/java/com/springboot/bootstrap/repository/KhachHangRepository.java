@@ -14,8 +14,5 @@ import java.util.List;
 @Repository
 public interface KhachHangRepository extends JpaRepository<KhachHang, String> {
 
-    KhachHang findByMa(String ma);
-
-
-
+    KhachHang findByEmail(String username);
 }

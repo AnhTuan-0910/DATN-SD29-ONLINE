@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface GioHangRepository extends JpaRepository<GioHang, UUID> {
-    GioHang findAllByKhachHang_Ma(String ma);
     GioHang findByKhachHang(KhachHang khachHang);
 
 }

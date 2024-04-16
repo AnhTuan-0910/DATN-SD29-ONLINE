@@ -43,7 +43,6 @@ public class SanPhamDetailOnlineController {
     @Autowired
     private SanPhamCTRepo sanPhamCTRepo;
 
-
     @Autowired
     private SanPhamCTService sanPhamCTService;
     @Autowired
@@ -63,7 +62,6 @@ public class SanPhamDetailOnlineController {
         return "/customer/detailSP";
     }
 
-
     @GetMapping("/convertToBase64")
     @ResponseBody
     public String spctImg(@RequestParam("id") String id) {
@@ -80,7 +78,6 @@ public class SanPhamDetailOnlineController {
         responseData.put("content", sanPhamCTService.findAllBySP(id));
         return ResponseEntity.ok(responseData);
     }
-
 
     @GetMapping("/mauSP")
     @ResponseBody
@@ -110,8 +107,6 @@ public class SanPhamDetailOnlineController {
     @GetMapping("/sp/")
     @ResponseBody
     public ResponseEntity<SanPham> getOneSP(@RequestParam("id") String id) {
-
-
         return ResponseEntity.ok(sanPhamService.detail(id));
     }
 
@@ -119,8 +114,6 @@ public class SanPhamDetailOnlineController {
     @GetMapping("/gia_min")
     @ResponseBody
     public ResponseEntity<String> dgMin(@RequestParam("id") String id) {
-
-
         return ResponseEntity.ok(sanPhamCTRepo.giaMin(id));
     }
 
@@ -135,8 +128,6 @@ public class SanPhamDetailOnlineController {
     @GetMapping("/user/spctGH")
     @ResponseBody
     public ResponseEntity<SanPhamCT> spctAddGH(@RequestParam("id") String id, @RequestParam("idMS") String idMS, @RequestParam("idKT") String idKT) {
-
-
         return ResponseEntity.ok(sanPhamCTRepo.findSPCTByKTAndMS(id, idMS, idKT));
     }
 

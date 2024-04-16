@@ -4,6 +4,7 @@ package com.springboot.bootstrap.controller.giohangcontroller;
 import com.springboot.bootstrap.entity.FormatHelper;
 import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.GioHangChiTiet;
+import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.repository.GioHangChiTietRepository;
 import com.springboot.bootstrap.repository.GioHangRepository;
 import com.springboot.bootstrap.utility.Base64Image;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/shop/gio-hang")
+@RequestMapping("/gio-hang")
 public class GioHangController{
 
     @Autowired
@@ -32,9 +33,9 @@ public class GioHangController{
 
     @GetMapping
     public String getAll(Model model){
-        List<GioHangChiTiet> listGioHang=gioHangChiTietRepository.findAllByGioHang_KhachHang_Ma("KH005");
+        GioHang gioHang=gioHangRepository.findByKhachHang(new KhachHang());
+        List<GioHangChiTiet> listGioHang=gioHangChiTietRepository.findAllByGioHang(gioHang);
         model.addAttribute("listGioHangCT",listGioHang);
-        GioHang gioHang=gioHangRepository.findAllByKhachHang_Ma("KH005");
         model.addAttribute("gioHang",gioHang);
         model.addAttribute("formatHelper", new FormatHelper());
         model.addAttribute("base64Image", base64Image);
@@ -49,14 +50,14 @@ public class GioHangController{
             gioHangChiTiet.setSoLuong(soLuong);
             gioHangChiTiet.setDonGia(gioHangChiTiet.getSanPhamCT().getGia()*gioHangChiTiet.getSoLuong());
             gioHangChiTietRepository.save(gioHangChiTiet);
-        return "redirect:/shop/gio-hang";
+        return "redirect:/gio-hang";
     }
 
     @GetMapping("/delete/{idGhct}")
     public String deleteItem(Model model,
                              @PathVariable("idGhct") UUID idGhct) {
         gioHangChiTietRepository.deleteById(idGhct);
-        return "redirect:/shop/gio-hang";
+        return "redirect:/gio-hang";
     }
 
 
