@@ -1,5 +1,6 @@
 package com.springboot.bootstrap.service.impl;
 
+import com.springboot.bootstrap.entity.HoaDonChiTiet;
 import com.springboot.bootstrap.repository.HoaDonChiTietRepository;
 import com.springboot.bootstrap.repository.HoaDonRepository;
 import com.springboot.bootstrap.repository.SanPhamCTRepo;
@@ -16,5 +17,9 @@ public class HoaDonChiTietServiceImpl implements HoaDonChiTietService {
     @Autowired
     private HoaDonRepository hoaDonRepository;
 
+    @Override
+    public void add(HoaDonChiTiet hoaDonChiTiet) {
+        hoaDonChiTietRepository.save(hoaDonChiTiet);
+    }
     }
 
