@@ -22,7 +22,7 @@ function getSLAndDGGHCT() {
     var soLuongSP = 0;
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/user/getAllGHCT',
+        url: 'http://localhost:8080/shop/getAllGHCT',
         success: function (dt) {
 
             $.each(dt, function (index, ghct1) {
@@ -44,7 +44,7 @@ function findAllGH(page) {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/user/findAllGHCT?p=' + page,
+        url: 'http://localhost:8080/shop/findAllGHCT?p=' + page,
         success: function (dtGHCT) {
 
 
@@ -55,7 +55,7 @@ function findAllGH(page) {
                  <div class="product">
                                 <div class="product-cart-details">
                                     <h4 class="product-title">
-                                        <a href="/shop/detailSP/${ghct.sanPhamCT.sanPham.id}">${ghct.sanPhamCT.sanPham.ten}</a>
+                                        <a href="/spOnl/detailSP/${ghct.sanPhamCT.sanPham.id}">${ghct.sanPhamCT.sanPham.ten}</a>
                                     </h4>
                                          <div >
                                                <span class="cart-product-qty">SL:${ghct.soLuong}</span>
@@ -88,7 +88,7 @@ function findAllGH(page) {
 
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/shop/convertToBase64?id=' + ghct.sanPhamCT.id,
+                    url: 'http://localhost:8080/spOnl/convertToBase64?id=' + ghct.sanPhamCT.id,
                     success: function (response) {
                         $('#imgSPCT' + ghct.idGhct).attr('src', 'data:image/jpeg;base64,' + response);
 

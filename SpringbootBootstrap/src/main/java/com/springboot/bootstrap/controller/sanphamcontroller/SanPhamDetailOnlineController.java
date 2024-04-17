@@ -1,12 +1,9 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.sanphamcontroller;
 
 import com.springboot.bootstrap.entity.DTO.GioHangAddDTO;
 import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.GioHangChiTiet;
 import com.springboot.bootstrap.entity.KhachHang;
-import com.springboot.bootstrap.entity.KichThuoc;
-import com.springboot.bootstrap.entity.MauSac;
-import com.springboot.bootstrap.entity.SanPham;
 import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.repository.GioHangChiTietRepository;
 import com.springboot.bootstrap.repository.GioHangRepository;
@@ -20,9 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,83 +50,12 @@ public class SanPhamDetailOnlineController {
     @Autowired
     private KhachHangService khachHangService;
 
-    @GetMapping("/detailSP/{idSP}")
-    public String getSPDetail(@PathVariable("idSP") String idSP, Model model) {
-
-        model.addAttribute("idSP", idSP);
-        return "/customer/detailSP";
-    }
-
-    @GetMapping("/convertToBase64")
-    @ResponseBody
-    public String spctImg(@RequestParam("id") String id) {
-        SanPhamCT spct = sanPhamCTService.getOne(id);
-        byte[] imageData = spct.getData();
-        String base64Data = base64Image.bytesToBase64(imageData);
-        return base64Data;
-    }
-
-    @GetMapping("/spct")
-    @ResponseBody
-    public ResponseEntity<Map<String, List<SanPhamCT>>> spct(@RequestParam("id") String id) {
-        Map<String, List<SanPhamCT>> responseData = new HashMap<>();
-        responseData.put("content", sanPhamCTService.findAllBySP(id));
-        return ResponseEntity.ok(responseData);
-    }
-
-    @GetMapping("/mauSP")
-    @ResponseBody
-    public ResponseEntity<List<MauSac>> mauSP(@RequestParam("id") String id) {
 
 
-        return ResponseEntity.ok(sanPhamCTRepo.mauSP(id));
-    }
-
-    @GetMapping("/ktSPCT")
-    @ResponseBody
-    public ResponseEntity<List<SanPhamCT>> sizeSPCT(@RequestParam("id") String id, @RequestParam("idMS") String idMS) {
 
 
-        return ResponseEntity.ok(sanPhamCTRepo.findKTByMS(id, idMS));
-    }
 
-
-    @GetMapping("/ktSP")
-    @ResponseBody
-    public ResponseEntity<List<KichThuoc>> sizeSP(@RequestParam("id") String id) {
-
-
-        return ResponseEntity.ok(sanPhamCTRepo.sizeSP(id));
-    }
-
-    @GetMapping("/sp/")
-    @ResponseBody
-    public ResponseEntity<SanPham> getOneSP(@RequestParam("id") String id) {
-        return ResponseEntity.ok(sanPhamService.detail(id));
-    }
-
-
-    @GetMapping("/gia_min")
-    @ResponseBody
-    public ResponseEntity<String> dgMin(@RequestParam("id") String id) {
-        return ResponseEntity.ok(sanPhamCTRepo.giaMin(id));
-    }
-
-    @GetMapping("/gia_max")
-    @ResponseBody
-    public ResponseEntity<String> dgMax(@RequestParam("id") String id) {
-
-
-        return ResponseEntity.ok(sanPhamCTRepo.giaMax(id));
-    }
-
-    @GetMapping("/user/spctGH")
-    @ResponseBody
-    public ResponseEntity<SanPhamCT> spctAddGH(@RequestParam("id") String id, @RequestParam("idMS") String idMS, @RequestParam("idKT") String idKT) {
-        return ResponseEntity.ok(sanPhamCTRepo.findSPCTByKTAndMS(id, idMS, idKT));
-    }
-
-    @GetMapping("/user/findAllGHCT")
+    @GetMapping("/findAllGHCT")
     @ResponseBody
     public ResponseEntity<Page<GioHangChiTiet>> spct(@RequestParam("p") Optional<Integer> p) {
         String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
@@ -140,7 +64,7 @@ public class SanPhamDetailOnlineController {
         return ResponseEntity.ok(listGHCT);
     }
 
-    @GetMapping("/user/getAllGHCT")
+    @GetMapping("/getAllGHCT")
     @ResponseBody
     public ResponseEntity<List<GioHangChiTiet>> allGHCTList() {
         String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
@@ -149,7 +73,7 @@ public class SanPhamDetailOnlineController {
         return ResponseEntity.ok(listGHCT);
     }
 
-    @GetMapping("/user/getGHCTBySPCT")
+    @GetMapping("/getGHCTBySPCT")
     @ResponseBody
     public ResponseEntity<GioHangChiTiet> validateSL(@RequestParam("idSPCT") String idSPCT) {
         String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
@@ -158,7 +82,7 @@ public class SanPhamDetailOnlineController {
         return ResponseEntity.ok(ghct);
     }
 
-    @PostMapping("/user/addGH")
+    @PostMapping("/addGH")
     public ResponseEntity<Map<String, String>> addSanPham(@RequestBody GioHangAddDTO gioHangAddDTO) {
         String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
         KhachHang khachHang = khachHangService.getOne(idKH);

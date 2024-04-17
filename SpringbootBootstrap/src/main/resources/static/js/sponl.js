@@ -150,18 +150,18 @@ function finAllSP(page) {
     <div class="col-6 col-md-4 col-lg-4">
         <div class="product product-7 text-center">
             <figure class="product-media">
-                <a href="/shop/detailSP/${sp.id}">
+                <a href="/spOnl/detailSP/${sp.id}">
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
         <div class="product-action">
-                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
                                     <span>Xem chi tiết</span></a>
                                 </div>
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten}</a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten}</a></h3>
                 <div class="product-price">
                  ${minPrice} - ${maxPrice}
                 </div>
@@ -252,19 +252,19 @@ function filterDM(listDM, page) {
     <div class="col-6 col-md-4 col-lg-4">
         <div class="product product-7 text-center">
             <figure class="product-media">
-                <a href="/shop/detailSP/${sp.id}">
+                <a href="/spOnl/detailSP/${sp.id}">
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
                 <div class="product-action">
-                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
                                     <span>Xem chi tiết</span></a>
                                 </div>
         
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} </a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} </a></h3>
                 <div class="product-price">
                  ${minPrice} - ${maxPrice}
                 </div>
@@ -355,18 +355,18 @@ function filterTH(listTH, page) {
     <div class="col-6 col-md-4 col-lg-4">
         <div class="product product-7 text-center">
             <figure class="product-media">
-                <a href="/shop/detailSP/${sp.id}">
+                <a href="/spOnl/detailSP/${sp.id}">
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
         <div class="product-action">
-                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
                                     <span>Xem chi tiết</span></a>
                                 </div>
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} </a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} </a></h3>
                 <div class="product-price">
                  ${minPrice} - ${maxPrice}
                 </div>
@@ -466,18 +466,18 @@ function filterKT(listKT, page) {
     <div class="col-6 col-md-4 col-lg-4">
         <div class="product product-7 text-center">
             <figure class="product-media">
-                <a href="/shop/detailSP/${sp.id}">
+                <a href="/spOnl/detailSP/${sp.id}">
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
         <div class="product-action">
-                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
                                     <span>Xem chi tiết</span></a>
                                 </div>
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} </a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} </a></h3>
                 <div class="product-price">
                  ${minPrice} - ${maxPrice}
                 </div>
@@ -568,18 +568,18 @@ function filterMS(listMS, page) {
     <div class="col-6 col-md-4 col-lg-4">
         <div class="product product-7 text-center">
             <figure class="product-media">
-                <a href="/shop/detailSP/${sp.id}">
+                <a href="/spOnl/detailSP/${sp.id}">
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
         <div class="product-action">
-                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
                                     <span>Xem chi tiết</span></a>
                                 </div>
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} </a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} </a></h3>
                 <div class="product-price">
                  ${minPrice} - ${maxPrice}
                 </div>

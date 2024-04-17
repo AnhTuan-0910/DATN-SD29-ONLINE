@@ -18,7 +18,7 @@ function findOneSP() {
     var idSP = $('#idSP').val();
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/spct?id=' + idSP,
+        url: 'http://localhost:8080/spOnl/spct?id=' + idSP,
         success: function (data) {
             console.log(idSP)
             $('#product-zoom-gallery').empty();
@@ -31,7 +31,7 @@ function findOneSP() {
                 console.log(idImg)
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/shop/convertToBase64?id=' + spct.id,
+                    url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spct.id,
                     success: function (response) {
                         $('#product-zoom-gallery').append(`
                          <a  class="product-gallery-item "
@@ -68,7 +68,7 @@ function findTTSP() {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/sp/?id=' + idSP,
+        url: 'http://localhost:8080/spOnl/sp/?id=' + idSP,
         success: function (data) {
 
             $('#nameSP').empty();
@@ -140,7 +140,7 @@ function findTTSP() {
     });
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/ktSP?id=' + idSP,
+        url: 'http://localhost:8080/spOnl/ktSP?id=' + idSP,
         success: function (data) {
             $('#sizeSP').empty();
             $.each(data, function (index, kt) {
@@ -162,7 +162,7 @@ function renderMSandKT() {
     var idSP = $('#idSP').val();
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/mauSP?id=' + idSP,
+        url: 'http://localhost:8080/spOnl/mauSP?id=' + idSP,
         success: function (data) {
 
             $('#msSP').empty();
@@ -187,7 +187,7 @@ function renderMSandKT() {
     });
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/ktSP?id=' + idSP,
+        url: 'http://localhost:8080/spOnl/ktSP?id=' + idSP,
         success: function (data) {
             $('#sizeSP').empty();
             $.each(data, function (index, kt) {
@@ -215,7 +215,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/shop/user/spctGH?id=' + idSP + '&idMS=' + idMS + '&idKT=' + idKT,
+            url: 'http://localhost:8080/spOnl/spctGH?id=' + idSP + '&idMS=' + idMS + '&idKT=' + idKT,
             success: function (dtspct) {
                 var dgSPCT=formatCurrency(dtspct.gia);
                 $('#idSPCT').val(dtspct.id);
@@ -243,7 +243,7 @@ $(document).ready(function () {
         console.log(idMS);
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/shop/ktSPCT?id=' + idSP + '&idMS=' + idMS,
+            url: 'http://localhost:8080/spOnl/ktSPCT?id=' + idSP + '&idMS=' + idMS,
             success: function (dataSPCT) {
                 $('#sizeSP').empty();
                 $.each(dataSPCT, function (index, spct) {
@@ -305,7 +305,7 @@ $(document).ready(function () {
         }
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/shop/user/getGHCTBySPCT?idSPCT=' + idSPCT ,
+            url: 'http://localhost:8080/shop/getGHCTBySPCT?idSPCT=' + idSPCT ,
             success: function (dt) {
                 slGH=dt.soLuong;
                 if ((sl+slGH) > slTon) {
@@ -327,14 +327,10 @@ $(document).ready(function () {
                     confirmButtonText: "Có"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "Thành công!",
-                            text: "Bạn vừa thêm 1 sản phẩm vào giỏ",
-                            icon: "success"
-                        });
+
                         $.ajax({
                             type: "POST",
-                            url: "/shop/user/addGH",
+                            url:  "http://localhost:8080/shop/addGH",
                             data: JSON.stringify({
                                 idSPCT: idSPCT,
                                 soLuong: sl,
@@ -343,10 +339,19 @@ $(document).ready(function () {
                             contentType: "application/json",
                             dataType: "json",
                             success: function (response) {
+                                Swal.fire({
+                                    title: "Thành công!",
+                                    text: "Bạn vừa thêm 1 sản phẩm vào giỏ",
+                                    icon: "success"
+                                });
                                 window.location.reload();
                             },
                             error: function (xhr, status, error) {
-                                alert("Đã xảy ra lỗi khi tạo sản phẩm!");
+                                Swal.fire({
+                                    title: "Thất bại!",
+                                    text: "Bạn cần đăng nhập để tạo giỏ hàng",
+                                    icon: "error"
+                                });
                                 console.log(xhr.responseText); // In ra nội dung lỗi từ phản hồi
                                 console.log(status); // In ra trạng thái lỗi
                                 console.log(error); // In ra thông tin lỗi

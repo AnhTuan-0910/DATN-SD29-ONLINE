@@ -1,4 +1,4 @@
-package com.springboot.bootstrap.controller;
+package com.springboot.bootstrap.controller.sanphamcontroller;
 
 import com.springboot.bootstrap.entity.DanhMuc;
 import com.springboot.bootstrap.entity.KichThuoc;
@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,6 +53,46 @@ public class SanPhamOnlineController {
     @Autowired
     private MauSacService mauSacService;
 
+    @GetMapping("/detailSP/{idSP}")
+    public String getSPDetail(@PathVariable("idSP") String idSP, Model model) {
+
+        model.addAttribute("idSP", idSP);
+        return "/customer/detailSP";
+    }
+    @GetMapping("/ktSPCT")
+    @ResponseBody
+    public ResponseEntity<List<SanPhamCT>> sizeSPCT(@RequestParam("id") String id, @RequestParam("idMS") String idMS) {
+
+
+        return ResponseEntity.ok(sanPhamCTRepo.findKTByMS(id, idMS));
+    }
+
+
+    @GetMapping("/ktSP")
+    @ResponseBody
+    public ResponseEntity<List<KichThuoc>> sizeSP(@RequestParam("id") String id) {
+
+
+        return ResponseEntity.ok(sanPhamCTRepo.sizeSP(id));
+    }
+
+    @GetMapping("/sp/")
+    @ResponseBody
+    public ResponseEntity<SanPham> getOneSP(@RequestParam("id") String id) {
+        return ResponseEntity.ok(sanPhamService.detail(id));
+    }
+    @GetMapping("/mauSP")
+    @ResponseBody
+    public ResponseEntity<List<MauSac>> mauSP(@RequestParam("id") String id) {
+
+
+        return ResponseEntity.ok(sanPhamCTRepo.mauSP(id));
+    }
+    @GetMapping("/spctGH")
+    @ResponseBody
+    public ResponseEntity<SanPhamCT> spctAddGH(@RequestParam("id") String id, @RequestParam("idMS") String idMS, @RequestParam("idKT") String idKT) {
+        return ResponseEntity.ok(sanPhamCTRepo.findSPCTByKTAndMS(id, idMS, idKT));
+    }
 
     @GetMapping("/allSP")
     public String getAll(Model model) {

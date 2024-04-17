@@ -60,18 +60,18 @@ function finTop6SPBC() {
         
             <figure class="product-media">
              <span class="product-label label-sale">Hot</span>
-                <a href="/shop/detailSP/${sp.id}">
+                <a href="/spOnl/detailSP/${sp.id}">
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
                 <div class="product-action">
-                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart"><span>Xem chi tiết</span></a>
+                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart"><span>Xem chi tiết</span></a>
                                 </div>
 
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
                 <div class="product-price">
                  ${minPrice}₫ - ${maxPrice}₫
                 </div>
@@ -160,19 +160,19 @@ function finTop6SPNew() {
         
             <figure class="product-media">
              <span class="product-label label-new">New</span>
-                <a href="/shop/detailSP/${sp.id}">
+                <a href="/spOnl/detailSP/${sp.id}">
                     <img id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
                  <div class="product-action">
-                                    <a href="/shop/detailSP/${sp.id}" class="btn-product btn-cart">
+                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
                                     <span>Xem chi tiết</span></a>
                                 </div>
 
             </figure>
 
             <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/shop/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
+                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
                 <div class="product-price">
                  ${minPrice}₫ - ${maxPrice}₫
                 </div>

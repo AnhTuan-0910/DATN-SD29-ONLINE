@@ -12,20 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/registration")
 public class UserRegistrationController {
     private KhachHangService khachHangService;
+
     public UserRegistrationController(KhachHangService userService) {
         super();
         this.khachHangService = userService;
     }
+
     @ModelAttribute("user")
     public UserRegistrationDto userRegistrationDto() {
         return new UserRegistrationDto();
     }
+
     @GetMapping
     public String showRegistrationForm() {
         return "/customer/registration";
     }
+
     @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto){
+    public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
         khachHangService.save(registrationDto);
         return "redirect:/registration?success";
     }
