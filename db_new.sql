@@ -70,6 +70,13 @@ create table san_pham
     sua_boi        nvarchar(20),
 
 )
+create table Anh
+(
+     id_hinh_anh    uniqueidentifier DEFAULT NEWID() primary key,
+     id_san_pham uniqueidentifier,
+     foreign key (id_san_pham) references san_pham (id_san_pham),
+     duong_dan    image,
+)
 create table san_pham_chi_tiet
 (
     id_spct       uniqueidentifier DEFAULT NEWID() primary key,
