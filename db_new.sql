@@ -54,6 +54,13 @@ create table danh_muc
     sua_boi     nvarchar(20),
 
 )
+create table Anh
+(
+     id_hinh_anh    uniqueidentifier DEFAULT NEWID() primary key,
+     id_san_pham uniqueidentifier,
+     foreign key (id_san_pham) references san_pham (id_san_pham),
+     duong_dan    image,
+)
 create table san_pham
 (
     id_san_pham    uniqueidentifier DEFAULT NEWID() primary key,
@@ -69,13 +76,6 @@ create table san_pham
     tao_boi        nvarchar(20),
     sua_boi        nvarchar(20),
 
-)
-create table Anh
-(
-     id_hinh_anh    uniqueidentifier DEFAULT NEWID() primary key,
-     id_san_pham uniqueidentifier,
-     foreign key (id_san_pham) references san_pham (id_san_pham),
-     duong_dan    image,
 )
 create table san_pham_chi_tiet
 (
@@ -99,12 +99,10 @@ create table san_pham_chi_tiet
 
 )
 
-create table chuc_vu
+create table _role
 (
-    id_chuc_vu uniqueidentifier DEFAULT NEWID() primary key,
-    ma         varchar(20),
+    id_role uniqueidentifier DEFAULT NEWID() primary key,
     ten        nvarchar(50),
-    trang_thai int,
     tao_luc    date,
     sua_luc    date,
     tao_boi    nvarchar(20),
@@ -114,14 +112,12 @@ create table chuc_vu
 create table nhan_vien
 (
     id_nhan_vien  uniqueidentifier DEFAULT NEWID() primary key,
-    id_chuc_vu    uniqueidentifier,
-    foreign key (id_chuc_vu) references chuc_vu (id_chuc_vu),
-    ma            varchar(20),
+    id_role    uniqueidentifier,
+    foreign key (id_role) references _role(id_role),
     email         varchar(50),
     ten           nvarchar(50),
     gioi_tinh     nvarchar(20),
     ngay_sinh     date,
-    anh_nhan_vien VARBINARY,
     dia_chi       nvarchar(100),
     sdt           varchar(20),
     mat_khau      varchar(20),
