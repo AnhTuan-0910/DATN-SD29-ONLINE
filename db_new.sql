@@ -116,11 +116,11 @@ create table nhan_vien
     foreign key (id_role) references _role(id_role),
     email         varchar(50),
     ten           nvarchar(50),
-    gioi_tinh     nvarchar(20),
+    gioi_tinh     int,
     ngay_sinh     date,
     dia_chi       nvarchar(100),
     sdt           varchar(20),
-    mat_khau      varchar(20),
+    mat_khau      varchar(MAX),
     trang_thai    int,
     tao_luc       date,
     sua_luc       date,
@@ -128,35 +128,16 @@ create table nhan_vien
     sua_boi       nvarchar(20),
 )
 
-create table dia_chi
-(
-    id_dia_chi uniqueidentifier DEFAULT NEWID() primary key,
-    dia_chi    nvarchar(50),
-    quan_huyen nvarchar(50),
-    tinh_thanh nvarchar(50),
-    phuong_xa  nvarchar(50),
-    quoc_gia   nvarchar(50),
-    sdt        varchar(10),
-    trang_thai int,
-    tao_luc    date,
-    sua_luc    date,
-    tao_boi    nvarchar(20),
-    sua_boi    nvarchar(20),
-
-)
 create table khach_hang
 (
     id_kh         uniqueidentifier DEFAULT NEWID() primary key,
-    id_dia_chi    uniqueidentifier,
-    foreign key (id_dia_chi) references dia_chi (id_dia_chi),
-    ma            varchar(20),
     ten           nvarchar(50),
     ngay_sinh     date,
-    gioi_tinh     varchar(50),
+    gioi_tinh     int,
     email         varchar(50),
     sdt           varchar(10),
-    mat_khau      varchar(20),
-    anh_nhan_vien nvarchar(100),
+    dia_chi       nvarchar(100),
+    mat_khau      varchar(MAX),
     trang_thai    int,
     tao_luc       date,
     sua_luc       date,
