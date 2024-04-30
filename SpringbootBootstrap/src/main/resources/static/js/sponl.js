@@ -96,62 +96,56 @@ $(document).ready(function () {
 
     });
 });
-
-function finAllSP(page) {
-    var url = 'http://localhost:8080/spOnl/all?p=' + page;
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function (data) {
-            if (data) {
-                $('#ren-derSP').empty();
+function fillSP(data) {
+    if (data) {
+        $('#ren-derSP').empty();
 
 
-                $.each(data.content, function (index, sp) {
-                    var maSP = sp.ma;
-                    var idImg = 'imgSPCT' + maSP;
+        $.each(data.content, function (index, sp) {
+            var maSP = sp.ma;
+            var idImg = 'imgSPCT' + maSP;
 
-                    var minPrice = 0;
-                    var maxPrice = 0;
+            var minPrice = 0;
+            var maxPrice = 0;
+            $.ajax({
+                type: 'GET',
+                url: '/spOnl/gia_min?id=' + sp.id,
+                success: function (dgmin) {
+                    minPrice = formatCurrency(dgmin);
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: '/spOnl/gia_max?id=' + sp.id,
+                success: function (dgmax) {
+                    maxPrice = formatCurrency(dgmax);
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: '/spOnl/anh?id=' + sp.id,
+                success: function (spctdata) {
+
                     $.ajax({
                         type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
-                        success: function (dgmin) {
-                            minPrice = formatCurrency(dgmin);
+                        url: '/spOnl/convertToBase64?id=' + spctdata[0].id,
+                        success: function (response) {
+                            $('#imgSPCT' + maSP + '').attr('src', 'data:image/jpeg;base64,' + response)
+
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
                         }
+
                     });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
-                        success: function (dgmax) {
-                            maxPrice = formatCurrency(dgmax);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/spct?id=' + sp.id,
-                        success: function (spctdata) {
 
-                            $.ajax({
-                                type: 'GET',
-                                url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spctdata[0].id,
-                                success: function (response) {
-                                    $('#imgSPCT' + maSP + '').attr('src', 'data:image/jpeg;base64,' + response)
-
-
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-
-                            });
-
-                            $('#ren-derSP').append(`
+                    $('#ren-derSP').append(`
     <div class="col-6 col-md-4 col-lg-4">
         <div class="product product-7 text-center">
             <figure class="product-media">
                 <a href="/spOnl/detailSP/${sp.id}">
-                    <img id="${idImg}" src="" alt="Product image"
+                    <img style="max-width: 315px;min-width: 315px;max-height: 315px;min-height: 315px;" id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
         <div class="product-action">
@@ -172,25 +166,35 @@ function finAllSP(page) {
                     `);
 
 
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
 
-                    });
-
-
-                });
-                updatePaginationSPOnl(data);
-            } else {
-                Swal.fire({
-                    title: "Không tìm thấy sản phẩm ",
-                    icon: "info",
+            });
 
 
-                });
-            }
+        });
+        updatePaginationSPOnl(data);
+    } else {
+        Swal.fire({
+            title: "Không tìm thấy sản phẩm ",
+            icon: "info",
 
+
+        });
+    }
+
+}
+
+function finAllSP(page) {
+    console.log("page"+page)
+    var url = '/spOnl/all?p=' + page;
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (data) {
+           fillSP(data);
 
         },
 
@@ -200,99 +204,12 @@ function finAllSP(page) {
 }
 
 function filterDM(listDM, page) {
-    var url = 'http://localhost:8080/spOnl/filterByDM?listDM=' + listDM + '&p=' + page;
+    var url = '/spOnl/filterByDM?listDM=' + listDM + '&p=' + page;
     $.ajax({
         type: 'GET',
         url: url,
         success: function (data) {
-            if (data) {
-                $('#ren-derSP').empty();
-
-
-                $.each(data.content, function (index, sp) {
-                    var maSP = sp.ma;
-                    var idImg = 'imgSPCT' + maSP;
-
-                    var minPrice = 0;
-                    var maxPrice = 0;
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
-                        success: function (dgmin) {
-                            minPrice = formatCurrency(dgmin);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
-                        success: function (dgmax) {
-                            maxPrice = formatCurrency(dgmax);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/spct?id=' + sp.id,
-                        success: function (spctdata) {
-
-                            $.ajax({
-                                type: 'GET',
-                                url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spctdata[0].id,
-                                success: function (response) {
-                                    $('#imgSPCT' + maSP + '').attr('src', 'data:image/jpeg;base64,' + response)
-
-
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-
-                            });
-
-                            $('#ren-derSP').append(`
-    <div class="col-6 col-md-4 col-lg-4">
-        <div class="product product-7 text-center">
-            <figure class="product-media">
-                <a href="/spOnl/detailSP/${sp.id}">
-                    <img id="${idImg}" src="" alt="Product image"
-                         class="product-image">
-                </a>
-                <div class="product-action">
-                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
-                                    <span>Xem chi tiết</span></a>
-                                </div>
-        
-            </figure>
-
-            <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} </a></h3>
-                <div class="product-price">
-                 ${minPrice} - ${maxPrice}
-                </div>
-            </div>
-        </div>
-    </div>
-
-                    `);
-
-
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-
-                    });
-
-
-                });
-                updatePaginationSPOnl(data);
-            } else {
-                Swal.fire({
-                    title: "Không tìm thấy sản phẩm ",
-                    icon: "info",
-
-
-                });
-            }
+            fillSP(data);
 
 
         },
@@ -303,98 +220,12 @@ function filterDM(listDM, page) {
 }
 
 function filterTH(listTH, page) {
-    var url = 'http://localhost:8080/spOnl/filterByTH?listTH=' + listTH + '&p=' + page;
+    var url = '/spOnl/filterByTH?listTH=' + listTH + '&p=' + page;
     $.ajax({
         type: 'GET',
         url: url,
         success: function (data) {
-            if (data) {
-                $('#ren-derSP').empty();
-
-
-                $.each(data.content, function (index, sp) {
-                    var maSP = sp.ma;
-                    var idImg = 'imgSPCT' + maSP;
-
-                    var minPrice = 0;
-                    var maxPrice = 0;
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
-                        success: function (dgmin) {
-                            minPrice = formatCurrency(dgmin);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
-                        success: function (dgmax) {
-                            maxPrice = formatCurrency(dgmax);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/spct?id=' + sp.id,
-                        success: function (spctdata) {
-
-                            $.ajax({
-                                type: 'GET',
-                                url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spctdata[0].id,
-                                success: function (response) {
-                                    $('#imgSPCT' + maSP + '').attr('src', 'data:image/jpeg;base64,' + response)
-
-
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-
-                            });
-
-                            $('#ren-derSP').append(`
-    <div class="col-6 col-md-4 col-lg-4">
-        <div class="product product-7 text-center">
-            <figure class="product-media">
-                <a href="/spOnl/detailSP/${sp.id}">
-                    <img id="${idImg}" src="" alt="Product image"
-                         class="product-image">
-                </a>
-        <div class="product-action">
-                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
-                                    <span>Xem chi tiết</span></a>
-                                </div>
-            </figure>
-
-            <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} </a></h3>
-                <div class="product-price">
-                 ${minPrice} - ${maxPrice}
-                </div>
-            </div>
-        </div>
-    </div>
-
-                    `);
-
-
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-
-                    });
-
-
-                });
-                updatePaginationSPOnl(data);
-            } else {
-                Swal.fire({
-                    title: "Không tìm thấy sản phẩm ",
-                    icon: "info",
-
-
-                });
-            }
+            fillSP(data);
 
 
         },
@@ -414,98 +245,12 @@ function formatCurrency(value) {
 function filterKT(listKT, page) {
 
 
-    var url = 'http://localhost:8080/spOnl/filterByKT?listKT=' + listKT + '&p=' + page;
+    var url = '/spOnl/filterByKT?listKT=' + listKT + '&p=' + page;
     $.ajax({
         type: 'GET',
         url: url,
         success: function (data) {
-            if (data) {
-                $('#ren-derSP').empty();
-
-
-                $.each(data.content, function (index, sp) {
-                    var maSP = sp.ma;
-                    var idImg = 'imgSPCT' + maSP;
-
-                    var minPrice = 0;
-                    var maxPrice = 0;
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
-                        success: function (dgmin) {
-                            minPrice = formatCurrency(dgmin);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
-                        success: function (dgmax) {
-                            maxPrice = formatCurrency(dgmax);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/spct?id=' + sp.id,
-                        success: function (spctdata) {
-
-                            $.ajax({
-                                type: 'GET',
-                                url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spctdata[0].id,
-                                success: function (response) {
-                                    $('#imgSPCT' + maSP + '').attr('src', 'data:image/jpeg;base64,' + response)
-
-
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-
-                            });
-
-                            $('#ren-derSP').append(`
-    <div class="col-6 col-md-4 col-lg-4">
-        <div class="product product-7 text-center">
-            <figure class="product-media">
-                <a href="/spOnl/detailSP/${sp.id}">
-                    <img id="${idImg}" src="" alt="Product image"
-                         class="product-image">
-                </a>
-        <div class="product-action">
-                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
-                                    <span>Xem chi tiết</span></a>
-                                </div>
-            </figure>
-
-            <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} </a></h3>
-                <div class="product-price">
-                 ${minPrice} - ${maxPrice}
-                </div>
-            </div>
-        </div>
-    </div>
-
-                    `);
-
-
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-
-                    });
-
-
-                });
-                updatePaginationSPOnl(data);
-            } else {
-                Swal.fire({
-                    title: "Không tìm thấy sản phẩm ",
-                    icon: "info",
-
-
-                });
-            }
+            fillSP(data);
 
 
         },
@@ -516,98 +261,12 @@ function filterKT(listKT, page) {
 }
 
 function filterMS(listMS, page) {
-    var url = 'http://localhost:8080/spOnl/filterByMS?listMS=' + listMS + '&p=' + page;
+    var url = '/spOnl/filterByMS?listMS=' + listMS + '&p=' + page;
     $.ajax({
         type: 'GET',
         url: url,
         success: function (data) {
-            if (data) {
-                $('#ren-derSP').empty();
-
-
-                $.each(data.content, function (index, sp) {
-                    var maSP = sp.ma;
-                    var idImg = 'imgSPCT' + maSP;
-
-                    var minPrice = 0;
-                    var maxPrice = 0;
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
-                        success: function (dgmin) {
-                            minPrice = formatCurrency(dgmin);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
-                        success: function (dgmax) {
-                            maxPrice = formatCurrency(dgmax);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/spct?id=' + sp.id,
-                        success: function (spctdata) {
-
-                            $.ajax({
-                                type: 'GET',
-                                url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spctdata[0].id,
-                                success: function (response) {
-                                    $('#imgSPCT' + maSP + '').attr('src', 'data:image/jpeg;base64,' + response)
-
-
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-
-                            });
-
-                            $('#ren-derSP').append(`
-    <div class="col-6 col-md-4 col-lg-4">
-        <div class="product product-7 text-center">
-            <figure class="product-media">
-                <a href="/spOnl/detailSP/${sp.id}">
-                    <img id="${idImg}" src="" alt="Product image"
-                         class="product-image">
-                </a>
-        <div class="product-action">
-                                    <a href="/spOnl/detailSP/${sp.id}" class="btn-product btn-cart">
-                                    <span>Xem chi tiết</span></a>
-                                </div>
-            </figure>
-
-            <div class="product-body">
-                <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} </a></h3>
-                <div class="product-price">
-                 ${minPrice} - ${maxPrice}
-                </div>
-            </div>
-        </div>
-    </div>
-
-                    `);
-
-
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-
-                    });
-
-
-                });
-                updatePaginationSPOnl(data);
-            } else {
-                Swal.fire({
-                    title: "Không tìm thấy sản phẩm ",
-                    icon: "info",
-
-
-                });
-            }
+            fillSP(data);
 
 
         },

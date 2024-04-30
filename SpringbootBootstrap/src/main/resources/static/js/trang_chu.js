@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
 
 function finTop6SPBC() {
-    var url = 'http://localhost:8080/spOnl/top6SPBC';
+    var url = '/spOnl/top6SPBC';
     $.ajax({
         type: 'GET',
         url: url,
@@ -24,26 +24,26 @@ function finTop6SPBC() {
                     var maxPrice = 0;
                     $.ajax({
                         type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
+                        url: '/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
                             minPrice = dgmin;
                         }
                     });
                     $.ajax({
                         type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
+                        url: '/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
                             maxPrice = dgmax;
                         }
                     });
                     $.ajax({
                         type: 'GET',
-                        url: 'http://localhost:8080/spOnl/spct?id=' + sp.id,
+                        url: '/spOnl/anh?id=' + sp.id,
                         success: function (spctdata) {
 
                             $.ajax({
                                 type: 'GET',
-                                url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spctdata[0].id,
+                                url: '/spOnl/convertToBase64?id=' + spctdata[0].id,
                                 success: function (response) {
                                     $('#imgSPBC' + maSP + '').attr('src', 'data:image/jpeg;base64,' + response)
 
@@ -61,7 +61,7 @@ function finTop6SPBC() {
             <figure class="product-media">
              <span class="product-label label-sale">Hot</span>
                 <a href="/spOnl/detailSP/${sp.id}">
-                    <img id="${idImg}" src="" alt="Product image"
+                    <img style="max-width: 315px;min-width: 315px;max-height: 315px;min-height: 315px;" id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
                 <div class="product-action">
@@ -107,7 +107,7 @@ function finTop6SPBC() {
 }
 
 function finTop6SPNew() {
-    var url = 'http://localhost:8080/spOnl/top6SPNEW';
+    var url = '/spOnl/top6SPNEW';
     $.ajax({
         type: 'GET',
         url: url,
@@ -124,26 +124,26 @@ function finTop6SPNew() {
                     var maxPrice = 0;
                     $.ajax({
                         type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_min?id=' + sp.id,
+                        url: '/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
                             minPrice = dgmin;
                         }
                     });
                     $.ajax({
                         type: 'GET',
-                        url: 'http://localhost:8080/spOnl/gia_max?id=' + sp.id,
+                        url: '/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
                             maxPrice = dgmax;
                         }
                     });
                     $.ajax({
                         type: 'GET',
-                        url: 'http://localhost:8080/spOnl/spct?id=' + sp.id,
+                        url: '/spOnl/anh?id=' + sp.id,
                         success: function (spctdata) {
 
                             $.ajax({
                                 type: 'GET',
-                                url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spctdata[0].id,
+                                url: '/spOnl/convertToBase64?id=' + spctdata[0].id,
                                 success: function (response) {
                                     $('#imgSPNew' + maSP + '').attr('src', 'data:image/jpeg;base64,' + response)
 
@@ -161,7 +161,7 @@ function finTop6SPNew() {
             <figure class="product-media">
              <span class="product-label label-new">New</span>
                 <a href="/spOnl/detailSP/${sp.id}">
-                    <img id="${idImg}" src="" alt="Product image"
+                    <img style="max-width: 315px;min-width: 315px;max-height: 315px;min-height: 315px;" id="${idImg}" src="" alt="Product image"
                          class="product-image">
                 </a>
                  <div class="product-action">

@@ -19,6 +19,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
+        httpSecurity.csrf((csrf)->csrf.disable());
         httpSecurity.authorizeHttpRequests((authorize)->{
             authorize.requestMatchers(mvc.pattern("/registration**")).permitAll();
             authorize.requestMatchers(mvc.pattern("/js/**")).permitAll();
@@ -32,7 +33,7 @@ public class SecurityConfig {
             authorize.requestMatchers(mvc.pattern("/spOnl/**")).permitAll();
             authorize.anyRequest().authenticated();
         })
-                .formLogin(form -> form.loginPage("/login").permitAll())
+                .formLogin(form -> form.loginProcessingUrl("/login").loginPage("/login").permitAll())
                 .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login?logout")
                         .permitAll());

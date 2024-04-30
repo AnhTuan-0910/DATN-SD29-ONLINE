@@ -14,7 +14,7 @@ $(document).ready(function () {
 
 function formatCurrency(value) {
     var number = Number(value);
-    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    return number.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
 }
 
 function getSLAndDGGHCT() {
@@ -22,7 +22,7 @@ function getSLAndDGGHCT() {
     var soLuongSP = 0;
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/getAllGHCT',
+        url: '/shop/getAllGHCT',
         success: function (dt) {
 
             $.each(dt, function (index, ghct1) {
@@ -31,7 +31,7 @@ function getSLAndDGGHCT() {
 
             });
             soLuongSP += dt.length;
-            $('.tongTiendr').text(tongTien );
+            $('.tongTiendr').text(tongTien);
             $('#slSPCT').text(soLuongSP);
         },
         error: function (xhr, status, error) {
@@ -44,7 +44,7 @@ function findAllGH(page) {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/shop/findAllGHCT?p=' + page,
+        url: '/shop/findAllGHCT?p=' + page,
         success: function (dtGHCT) {
 
 
@@ -57,23 +57,17 @@ function findAllGH(page) {
                                     <h4 class="product-title">
                                         <a href="/spOnl/detailSP/${ghct.sanPhamCT.sanPham.id}">${ghct.sanPhamCT.sanPham.ten}</a>
                                     </h4>
-                                         <div >
-                                               <span class="cart-product-qty">SL:${ghct.soLuong}</span>
+                                        <div >
+                                                Màu:<div  style="background-color:${ghct.sanPhamCT.mauSac.ten}" class="badge">${ghct.sanPhamCT.mauSac.ten}</div>
+                                        </div>
+                                        <div >
+                                               <span class="cart-product-qty">Size:${ghct.sanPhamCT.kichThuoc.ten} - SL:${ghct.soLuong}</span>
                                         </div>
 
                                     <div >
                                                  Giá:<span class="cart-product-qty" style="color: red">${giaSPCT}</span>
                                                 
                                     </div>
-                                        <div >
-                                                Màu:<div  style="background-color:${ghct.sanPhamCT.mauSac.ten}" class="badge">${ghct.sanPhamCT.mauSac.ten}</div>
-                                        </div>
-                                          <div >
-                                               <span class="cart-product-qty">Size:${ghct.sanPhamCT.kichThuoc.ten}</span>
-                                                 
-                                               
-                                           </div>
-                                     
                                 </div>
 
                                 <figure  class="product-image-container">
@@ -85,17 +79,26 @@ function findAllGH(page) {
                                
                  </div>
                  `)
-
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/spOnl/convertToBase64?id=' + ghct.sanPhamCT.id,
-                    success: function (response) {
-                        $('#imgSPCT' + ghct.idGhct).attr('src', 'data:image/jpeg;base64,' + response);
+                    url: '/spOnl/anh?id=' + ghct.sanPhamCT.sanPham.id,
+                    success: function (imgSP) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/spOnl/convertToBase64?id=' + imgSP[0].id,
+                            success: function (response) {
+                                $('#imgSPCT' + ghct.idGhct).attr('src', 'data:image/jpeg;base64,' + response);
 
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            },
+
+                        });
                     },
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
-                    },
+                    }
 
                 });
 

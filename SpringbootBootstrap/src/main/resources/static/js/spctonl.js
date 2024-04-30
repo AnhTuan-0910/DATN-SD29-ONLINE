@@ -15,52 +15,10 @@ function formatCurrency(value) {
 }
 
 function findOneSP() {
-    var idSP = $('#idSP').val();
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/spOnl/spct?id=' + idSP,
-        success: function (data) {
-            console.log(idSP)
-            $('#product-zoom-gallery').empty();
-            console.log(data.content)
-            $.each(data.content, function (index, spct) {
-
-                var maSPCT = spct.id;
-                console.log(maSPCT)
-                var idImg = 'imgSPCT' + maSPCT;
-                console.log(idImg)
-                $.ajax({
-                    type: 'GET',
-                    url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spct.id,
-                    success: function (response) {
-                        $('#product-zoom-gallery').append(`
-                         <a  class="product-gallery-item "
-                                           data-image="data:image/jpeg;base64,${response}"
-                                           data-zoom-image="data:image/jpeg;base64,${response}">
-                                            <img src="data:image/jpeg;base64,${response}"
-                                                 alt="product side">
-                                        </a>
-                        
-                        `)
-                        $('.product-gallery-item').click(function clickImg() {
-                            $('.product-gallery-item').removeClass('active');
-                            $(this).addClass('active')
-                        })
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    },
-
-                });
-
-            });
-
-        },
-        error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
-
-    });
+    $('.product-gallery-item').click(function clickImg() {
+        $('.product-gallery-item').removeClass('active');
+        $(this).addClass('active')
+    })
 }
 
 function findTTSP() {
@@ -68,7 +26,7 @@ function findTTSP() {
 
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/spOnl/sp/?id=' + idSP,
+        url: '/spOnl/sp/?id=' + idSP,
         success: function (data) {
 
             $('#nameSP').empty();
@@ -88,7 +46,7 @@ function findTTSP() {
 
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/spOnl/gia_min?id=' + data.id,
+                url: '/spOnl/gia_min?id=' + data.id,
                 success: function (dgmin) {
                     minPrice = formatCurrency(dgmin);
                     console.log(minPrice);
@@ -96,7 +54,7 @@ function findTTSP() {
             });
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/spOnl/gia_max?id=' + data.id,
+                url: '/spOnl/gia_max?id=' + data.id,
                 success: function (dgmax) {
                     maxPrice = formatCurrency(dgmax);
 
@@ -106,23 +64,39 @@ function findTTSP() {
 
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/spOnl/spct?id=' + data.id,
-                success: function (spctdata) {
+                url: '/spOnl/anh?id=' +idSP,
+                success: function (imgdata) {
                     $('#giaSP').append(`  ${minPrice} - ${maxPrice}`)
+                    $('.carousel-inner').empty();
+                    $('.carousel-indicators').empty();
+                    $.each(imgdata, function (index, img) {
+                        console.log("id:"+index)
+                        var isFirst = index === 0;
+                        $.ajax({
+                            type: 'GET',
+                            url: '/spOnl/convertToBase64?id=' +img.id,
+                            success: function (response) {
+                                $('.carousel-indicators').append(`
+                                    <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="${index}"
+                                    ${isFirst ? 'class="active"' : ''} aria-label="Slide ${index+1}"></button>
+                                      `);
 
-                    $.ajax({
-                        type: 'GET',
-                        url: 'http://localhost:8080/spOnl/convertToBase64?id=' + spctdata[0].id,
-                        success: function (response) {
-                            $('#product-zoom').attr('src', 'data:image/jpeg;base64,' + response)
-                            $('#product-zoom').attr('data-zoom-image', 'data:image/jpeg;base64,' + response)
+                                $('.carousel-inner').append(`
+                             <div class="carousel-item ${isFirst ? 'active' : ''}">
+                             
+                                  <img style="max-width: 514px;min-width: 514px;max-height: 514px;min-height: 514px;" src="data:image/jpeg;base64,${response}"
+                                   class="d-block w-100" alt="...">                                                                                                  
+                             </div>
+                            `)
 
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
 
-                    });
+                        });
+                    })
+
 
                 },
                 error: function (xhr, status, error) {
@@ -140,7 +114,7 @@ function findTTSP() {
     });
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/spOnl/ktSP?id=' + idSP,
+        url: '/spOnl/ktSP?id=' + idSP,
         success: function (data) {
             $('#sizeSP').empty();
             $.each(data, function (index, kt) {
@@ -162,7 +136,7 @@ function renderMSandKT() {
     var idSP = $('#idSP').val();
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/spOnl/mauSP?id=' + idSP,
+        url: '/spOnl/mauSP?id=' + idSP,
         success: function (data) {
 
             $('#msSP').empty();
@@ -187,7 +161,7 @@ function renderMSandKT() {
     });
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/spOnl/ktSP?id=' + idSP,
+        url: '/spOnl/ktSP?id=' + idSP,
         success: function (data) {
             $('#sizeSP').empty();
             $.each(data, function (index, kt) {
@@ -215,7 +189,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/spOnl/spctGH?id=' + idSP + '&idMS=' + idMS + '&idKT=' + idKT,
+            url: '/spOnl/spctGH?id=' + idSP + '&idMS=' + idMS + '&idKT=' + idKT,
             success: function (dtspct) {
                 var dgSPCT=formatCurrency(dtspct.gia);
                 $('#idSPCT').val(dtspct.id);
@@ -243,7 +217,7 @@ $(document).ready(function () {
         console.log(idMS);
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/spOnl/ktSPCT?id=' + idSP + '&idMS=' + idMS,
+            url: '/spOnl/ktSPCT?id=' + idSP + '&idMS=' + idMS,
             success: function (dataSPCT) {
                 $('#sizeSP').empty();
                 $.each(dataSPCT, function (index, spct) {
@@ -305,7 +279,7 @@ $(document).ready(function () {
         }
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/shop/getGHCTBySPCT?idSPCT=' + idSPCT ,
+            url: '/shop/getGHCTBySPCT?idSPCT=' + idSPCT ,
             success: function (dt) {
                 slGH=dt.soLuong;
                 if ((sl+slGH) > slTon) {
@@ -330,7 +304,7 @@ $(document).ready(function () {
 
                         $.ajax({
                             type: "POST",
-                            url:  "http://localhost:8080/shop/addGH",
+                            url:  "/shop/addGH",
                             data: JSON.stringify({
                                 idSPCT: idSPCT,
                                 soLuong: sl,
@@ -349,9 +323,19 @@ $(document).ready(function () {
                             error: function (xhr, status, error) {
                                 Swal.fire({
                                     title: "Thất bại!",
-                                    text: "Bạn cần đăng nhập để tạo giỏ hàng",
-                                    icon: "error"
+                                    text: "Bạn cần đăng nhập để thêm vào giỏ hàng",
+                                    icon: "error",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#3085d6",
+                                    cancelButtonColor: "#d33",
+                                    confirmButtonText: "Login"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href="http://localhost:8081/login";
+                                    }
                                 });
+
+
                                 console.log(xhr.responseText); // In ra nội dung lỗi từ phản hồi
                                 console.log(status); // In ra trạng thái lỗi
                                 console.log(error); // In ra thông tin lỗi

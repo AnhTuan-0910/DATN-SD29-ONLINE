@@ -1,6 +1,7 @@
 package com.springboot.bootstrap.controller.logincontroller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ public class MainController {
     }
     @GetMapping("/")
     public String home(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(userDetails.getUsername());
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return "/customer/index";
     }

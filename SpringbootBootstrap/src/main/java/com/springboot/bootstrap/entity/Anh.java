@@ -1,5 +1,4 @@
 package com.springboot.bootstrap.entity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,7 +18,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "hinh_anh")
+@Table(name = "Anh")
 @Getter
 @Setter
 @Builder
@@ -29,15 +28,12 @@ public class Anh {
     @Column(name = "id_hinh_anh")
     private String id;
 
-    @Column(name = "ten")
-    private String ten;
-
     @Lob
     @Column(name = "duong_dan")
     private byte[] data;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_spct",referencedColumnName = "id_spct")
-    private SanPhamCT sanPhamCT;
+    @JoinColumn(name = "id_san_pham", referencedColumnName = "id_san_pham")
+    private SanPham sanPham;
 }

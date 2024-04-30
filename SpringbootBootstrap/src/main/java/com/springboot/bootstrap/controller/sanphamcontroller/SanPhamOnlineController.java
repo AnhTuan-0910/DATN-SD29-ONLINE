@@ -1,11 +1,13 @@
 package com.springboot.bootstrap.controller.sanphamcontroller;
 
+import com.springboot.bootstrap.entity.Anh;
 import com.springboot.bootstrap.entity.DanhMuc;
 import com.springboot.bootstrap.entity.KichThuoc;
 import com.springboot.bootstrap.entity.MauSac;
 import com.springboot.bootstrap.entity.SanPham;
 import com.springboot.bootstrap.entity.SanPhamCT;
 import com.springboot.bootstrap.entity.ThuongHieu;
+import com.springboot.bootstrap.repository.AnhRepo;
 import com.springboot.bootstrap.repository.SanPhamCTRepo;
 import com.springboot.bootstrap.repository.SanPhamRepo;
 import com.springboot.bootstrap.service.DanhMucService;
@@ -41,6 +43,8 @@ public class SanPhamOnlineController {
     @Autowired
     private SanPhamRepo sanPhamRepo;
     @Autowired
+    private AnhRepo anhRepo;
+    @Autowired
     private DanhMucService danhMucService;
     @Autowired
     private SanPhamCTService sanPhamCTService;
@@ -59,6 +63,7 @@ public class SanPhamOnlineController {
         model.addAttribute("idSP", idSP);
         return "/customer/detailSP";
     }
+
     @GetMapping("/ktSPCT")
     @ResponseBody
     public ResponseEntity<List<SanPhamCT>> sizeSPCT(@RequestParam("id") String id, @RequestParam("idMS") String idMS) {
@@ -81,6 +86,7 @@ public class SanPhamOnlineController {
     public ResponseEntity<SanPham> getOneSP(@RequestParam("id") String id) {
         return ResponseEntity.ok(sanPhamService.detail(id));
     }
+
     @GetMapping("/mauSP")
     @ResponseBody
     public ResponseEntity<List<MauSac>> mauSP(@RequestParam("id") String id) {
@@ -88,6 +94,7 @@ public class SanPhamOnlineController {
 
         return ResponseEntity.ok(sanPhamCTRepo.mauSP(id));
     }
+
     @GetMapping("/spctGH")
     @ResponseBody
     public ResponseEntity<SanPhamCT> spctAddGH(@RequestParam("id") String id, @RequestParam("idMS") String idMS, @RequestParam("idKT") String idKT) {
@@ -120,18 +127,18 @@ public class SanPhamOnlineController {
     @GetMapping("/convertToBase64")
     @ResponseBody
     public String ViewImg(@RequestParam("id") String id) {
-        SanPhamCT spct = sanPhamCTService.getOne(id);
-        byte[] imageData = spct.getData();
+        Anh anh = anhRepo.findById(id).get();
+        byte[] imageData = anh.getData();
         String base64Data = base64Image.bytesToBase64(imageData);
         return base64Data;
     }
 
-    @GetMapping("/spct")
+    @GetMapping("/anh")
     @ResponseBody
-    public ResponseEntity<List<SanPhamCT>> spct(@RequestParam("id") String id) {
+    public ResponseEntity<List<Anh>> spct(@RequestParam("id") String id) {
+        SanPham sanPham = sanPhamService.detail(id);
 
-
-        return ResponseEntity.ok(sanPhamCTService.findAllBySP(id));
+        return ResponseEntity.ok(anhRepo.findAllBySanPham(sanPham));
     }
 
     @GetMapping("/gia_min")
@@ -189,6 +196,7 @@ public class SanPhamOnlineController {
 
         return ResponseEntity.ok(sanPhamRepo.findTop6SanPhamBanChay());
     }
+
     @GetMapping("/top6SPNEW")
     @ResponseBody
     public ResponseEntity<List<SanPham>> spnew() {

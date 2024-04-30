@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,7 +60,9 @@ public class SanPhamDetailOnlineController {
     @GetMapping("/findAllGHCT")
     @ResponseBody
     public ResponseEntity<Page<GioHangChiTiet>> spct(@RequestParam("p") Optional<Integer> p) {
-        String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String idKH = userDetails.getUsername();
         KhachHang khachHang = khachHangService.getOne(idKH);
         Page<GioHangChiTiet> listGHCT = gioHangCTRepo.findAllByKH(khachHang, PageRequest.of(p.orElse(0), 3));
         return ResponseEntity.ok(listGHCT);
@@ -67,7 +71,9 @@ public class SanPhamDetailOnlineController {
     @GetMapping("/getAllGHCT")
     @ResponseBody
     public ResponseEntity<List<GioHangChiTiet>> allGHCTList() {
-        String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String idKH = userDetails.getUsername();
         KhachHang khachHang = khachHangService.getOne(idKH);
         List<GioHangChiTiet> listGHCT = gioHangCTRepo.getAllByKhachHang(khachHang);
         return ResponseEntity.ok(listGHCT);
@@ -76,18 +82,22 @@ public class SanPhamDetailOnlineController {
     @GetMapping("/getGHCTBySPCT")
     @ResponseBody
     public ResponseEntity<GioHangChiTiet> validateSL(@RequestParam("idSPCT") String idSPCT) {
-        String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String idKH = userDetails.getUsername();
         KhachHang khachHang = khachHangService.getOne(idKH);
         GioHangChiTiet ghct = gioHangCTRepo.getBySPCT(idSPCT, khachHang);
         return ResponseEntity.ok(ghct);
     }
 
     @PostMapping("/addGH")
+    @ResponseBody
     public ResponseEntity<Map<String, String>> addSanPham(@RequestBody GioHangAddDTO gioHangAddDTO) {
-        String idKH = "CF0A193C-B149-4F91-8A4A-1BC84237F155";
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String idKH = userDetails.getUsername();
         KhachHang khachHang = khachHangService.getOne(idKH);
         GioHang gh = gioHangRepo.findByKhachHang(khachHang);
-
         SanPhamCT sanPhamCT = sanPhamCTRepo.findById(gioHangAddDTO.getIdSPCT()).get();
 
         boolean isUpdated = false;

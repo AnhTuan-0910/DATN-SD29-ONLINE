@@ -27,22 +27,22 @@
 
                                 <tbody>
                                 <tr th:each="x : ${listGioHangCT}">
-                                    <form th:action="@{/shop/gio-hang/update-so-luong/{idGhct}(idGhct=${x.idGhct})}"
+                                    <form th:action="@{/gio-hang/update-so-luong/{idGhct}(idGhct=${x.idGhct})}"
                                           method="post" onsubmit="return validateQuantity()">
                                         <!--                                    <td><input type="checkbox" id="selectedProducts" name="selectedProducts" th:value="${x.sanPhamCT.id}" onchange="updateTotal()"></td>-->
                                         <td class="product-col">
                                             <div class="product">
                                                 <figure class="product-media">
-                                                    <a th:href="@{'/shop/detailSP/'+${x.sanPhamCT.sanPham.id}}">
+                                                    <a th:href="@{'/spOnl/detailSP/'+${x.sanPhamCT.sanPham.id}}">
                                                         <input name="idGhct" th:id="idGhct" th:value="${x.idGhct}"
                                                                hidden>
-                                                        <!--                                                    <img th:src="@{${x.sanPhamCT.anh}}" alt="Product image">-->
-                                                        <img th:src="'data:image/jpeg;base64,'+${base64Image.bytesToBase64(x.sanPhamCT.data)}"
-                                                             alt="Product image">
+                                                            <img th:src="'data:image/jpeg;base64,'+ ${base64Image.bytesToBase64(mapAnhSanPham[x.sanPhamCT.sanPham.id].data)}"
+                                                                 alt="Product image">
+
                                                     </a>
                                                 </figure>
                                                 <h3 class="product-title">
-                                                    <a th:href="@{'/shop/detailSP/'+${x.sanPhamCT.sanPham.id}}"
+                                                    <a th:href="@{'/spOnl/detailSP/'+${x.sanPhamCT.sanPham.id}}"
                                                        th:text="${x.sanPhamCT.sanPham.ten}"></a>
                                                     <div>Màu:<span th:text="${x.sanPhamCT.mauSac.ten}" th:style="'background-color:'+${x.sanPhamCT.mauSac.ten}" class="badge"></span></div>
                                                     <div th:text="'Size'+${x.sanPhamCT.kichThuoc.ten}"></div>
@@ -75,7 +75,7 @@
 
                                             <a th:onclick="return confirm('Bạn có muốn xoá sản phẩm này?')"
                                                type="button"
-                                               th:href="@{/shop/gio-hang/delete/{idGhct}(idGhct=${x.idGhct})}">
+                                               th:href="@{/gio-hang/delete/{idGhct}(idGhct=${x.idGhct})}">
                                                 <button class="btn-remove" type="button">
                                                     <i class="icon-close"></i>
                                                 </button>
@@ -107,16 +107,16 @@
                                     <tr class="summary-subtotal">
                                         <td>Tổng giá trị:</td>
                                         <td style="color: red" id="tongHoaDon"
-                                            th:text="${(gioHang?.thanhTien)}+' VNĐ'">0 VNĐ
+                                            th:text="${formatHelper.formatCurrency((gioHang?.thanhTien))}+' VNĐ'">0 VNĐ
                                         </td>
                                     </tr>
                                 </table>
 
-                                <a href="/shop/thanh-toan" class="btn btn-outline-primary-2 btn-order btn-block">THANH
+                                <a href="/thanh_toan" class="btn btn-outline-primary-2 btn-order btn-block">THANH
                                     TOÁN NGAY</a>
                             </div>
 
-                            <a href="/shop/tat-ca-san-pham" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA SẮM</span><i
+                            <a href="spOnl/allSP" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA SẮM</span><i
                                     class="icon-refresh"></i></a>
                         </aside>
                     </div>
