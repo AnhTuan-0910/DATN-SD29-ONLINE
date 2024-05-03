@@ -1,5 +1,7 @@
 package com.springboot.bootstrap.controller.thanhtoancontroller;
 
+import com.springboot.bootstrap.entity.DTO.ValidateDTO;
+import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.GioHangChiTiet;
 import com.springboot.bootstrap.entity.HoaDon;
 import com.springboot.bootstrap.entity.HoaDonChiTiet;
@@ -11,6 +13,8 @@ import com.springboot.bootstrap.service.HoaDonChiTietService;
 import com.springboot.bootstrap.service.HoaDonService;
 import com.springboot.bootstrap.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/thanh-toan")
+@RequestMapping("/thanh_toan")
 public class ThanhToanShopRestController {
     @Autowired
     private KhachHangService khachHangService;
@@ -33,22 +37,26 @@ public class ThanhToanShopRestController {
     @Autowired
     private HoaDonService hoaDonService;
     @PostMapping("/validateThanhToan")
-    public String validate(@RequestBody String idkh){
-        KhachHang khachHang = khachHangService.getOne(idkh);
+    public ValidateDTO validate(@RequestBody HoaDon hdc){
+        if(hdc.getThanhPho().isEmpty()||hdc.getQuanHuyen().isEmpty()||hdc.getPhuongXa().isEmpty()||hdc.getDiaChi().isEmpty()){
+            return ValidateDTO.builder().success(false).message("Vui lòng nhập đầy đủ dữ liệu" ).build();
+        }
+        Double sumMoney=0.0;
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        KhachHang khachHang = khachHangService.getOne(userDetails.getUsername());
+        GioHang gioHang = gioHangService.getIdByIdKh(khachHang);
         List<GioHangChiTiet> list = gioHangChiTietService.getListGhct(gioHangService.getIdByIdKh(khachHang));
         for(GioHangChiTiet gioHangChiTiet:list){
             SanPhamCT sanPhamCT = gioHangChiTiet.getSanPhamCT();
             if(sanPhamCT.getSl()<gioHangChiTiet.getSoLuong()){
-                return "that bai";
+                return ValidateDTO.builder().success(false).message("Sản phẩm " +sanPhamCT.getMa()+" bị vượt quá số lượng, vui lòng thử lại" ).build();
+            }else {
+                sumMoney+=gioHangChiTiet.getSoLuong()*sanPhamCT.getGia();
             }
         }
-        UUID uuid = UUID.randomUUID();
-        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(null).phieuGiamGia(null).gia(null).tinhTrang(1).thanhTien(null).build());
-        HoaDon hoaDon = hoaDonService.getOne(uuid);
-        for(GioHangChiTiet gioHangChiTiet:list){
-            hoaDonChiTietService.add(HoaDonChiTiet.builder().hoaDon(hoaDon).sanPhamChiTiet(gioHangChiTiet.getSanPhamCT()).gia(gioHangChiTiet.getDonGia()*gioHangChiTiet.getSoLuong()).soLuong(gioHangChiTiet.getSoLuong()).build());
+        if(gioHang.getThanhTien()!=sumMoney){
+            return ValidateDTO.builder().success(false).message("Có sản phẩm đã bị thay đổi giá, vui lòng thử lại" ).build();
         }
-        gioHangChiTietService.deleteAllByGioHang(gioHangService.getIdByIdKh(khachHang));
-        return "thanh cong";
+        return ValidateDTO.builder().success(true).build();
     }
 }

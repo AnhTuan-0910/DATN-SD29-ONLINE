@@ -22,10 +22,6 @@ public class KhachHang {
     @Column(name = "id_kh")
     private String idKhachHang;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_dia_chi", referencedColumnName = "id_dia_chi")
-    private DiaChi idDiaChi;
-
     @Column(name = "ten")
     private String ten;
 
@@ -33,16 +29,13 @@ public class KhachHang {
     private java.sql.Date ngaySinh;
 
     @Column(name = "gioi_tinh")
-    private String gioiTinh;
+    private Integer gioiTinh;
 
     @Column(name = "email")
     private String email;
 
     @Column(name = "mat_khau")
     private String matKhau;
-
-    @Column(name = "anh_nhan_vien")
-    private String anhNhanVien;
 
     @Column(name = "trang_thai")
     private int trangThai;

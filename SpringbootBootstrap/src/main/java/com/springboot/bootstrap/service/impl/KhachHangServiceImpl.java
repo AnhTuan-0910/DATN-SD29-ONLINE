@@ -1,14 +1,11 @@
 package com.springboot.bootstrap.service.impl;
 
-import com.springboot.bootstrap.entity.DTO.UserRegistrationDto;
+import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.KhachHang;
+import com.springboot.bootstrap.repository.GioHangRepository;
 import com.springboot.bootstrap.repository.KhachHangRepository;
 import com.springboot.bootstrap.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +24,8 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Autowired
     private KhachHangRepository khachHangRepository;
     @Autowired
+    private GioHangRepository gioHangRepository;
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
@@ -36,9 +34,16 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public void save(UserRegistrationDto registrationDto) {
-        KhachHang khachHang = KhachHang.builder().ten(registrationDto.getFirstName()).email(registrationDto.getEmail()).matKhau(passwordEncoder.encode(registrationDto.getPassword())).build();
-        khachHangRepository.save(khachHang);
+    public void save(KhachHang kh) {
+        khachHangRepository.save(kh);
+        KhachHang khachHang = khachHangRepository.findByEmail(kh.getEmail());
+        GioHang gioHang = GioHang.builder().khachHang(khachHang).thanhTien(0.0).build();
+        gioHangRepository.save(gioHang);
+    }
+
+    @Override
+    public List<KhachHang> getAll() {
+        return khachHangRepository.findAll();
     }
 
     @Override

@@ -137,7 +137,6 @@ public class SanPhamOnlineController {
     @ResponseBody
     public ResponseEntity<List<Anh>> spct(@RequestParam("id") String id) {
         SanPham sanPham = sanPhamService.detail(id);
-
         return ResponseEntity.ok(anhRepo.findAllBySanPham(sanPham));
     }
 

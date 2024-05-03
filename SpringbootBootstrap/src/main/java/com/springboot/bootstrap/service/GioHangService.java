@@ -5,4 +5,6 @@ import com.springboot.bootstrap.entity.KhachHang;
 
 public interface GioHangService {
     GioHang getIdByIdKh(KhachHang khachHang);
+
+    void update(GioHang gioHang);
 }

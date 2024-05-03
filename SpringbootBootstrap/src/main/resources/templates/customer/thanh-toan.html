@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>King Feet-Thương hiệu giày da hàng đầu</title>
-  <script th:src="@{/js/shop_thanh_toan.js}"></script>
+  <script th:src="@{/js/thanh_toan.js}"></script>
 </head>
 
 <body>
@@ -19,73 +19,38 @@
               <label for="checkout-discount-input" class="text-truncate">Có phiếu giảm giá? <span>Bấm vào đây để nhập mã...</span></label>
             </form>
           </div>
-          <form action="#">
             <div class="row">
-              <div class="col-lg-9">
+              <div class="col-lg-6">
+                <form id="formThanhToan" th:action="@{/thanh_toan/create_hoa_don}" method="POST">
                 <h2 class="checkout-title">Chi tiết thanh toán</h2>
+                    <label>Tên</label>
+                    <input type="text" th:value="${kh.ten}" class="form-control" disabled>
                 <div class="row">
                   <div class="col-sm-6">
-                    <label>Tên *</label>
-                    <input type="text" class="form-control" required>
-                  </div>
-
-                  <div class="col-sm-6">
-                    <label>Họ *</label>
-                    <input type="text" class="form-control" required>
-                  </div>
-                </div>
-
-                <label>Tên công ty (Nếu có)</label>
-                <input type="text" class="form-control">
-
-                <label>Quốc gia *</label>
-                <input type="text" class="form-control" required>
-
-                <label>Địa chỉ nhà *</label>
-                <input type="text" class="form-control" placeholder="Số nhà và tên đường" required>
-                <input type="text" class="form-control" placeholder="Căn hộ, dãy trọ ..." required>
-
-                <div class="row">
-                  <div class="col-sm-6">
-                    <label>Thị trấn / Thành phố *</label>
-                    <input type="text" class="form-control" required>
+                    <label>Thị trấn / Thành phố *</label> <br/>
+                    <select class="form-control" name="thanhPho" id="thanhPho"></select>
                   </div>
 
                   <div class="col-sm-6">
                     <label>Quận / Huyện *</label>
-                    <input type="text" class="form-control" required>
+                    <select class="form-control" name="quanHuyen" id="quanHuyen"></select>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-sm-6">
                     <label>Phường / Xã *</label>
-                    <input type="text" class="form-control" required>
+                    <select class="form-control" name="phuongXa" id="phuongXa"></select>
                   </div>
 
-                  <div class="col-sm-6">
-                    <label>Điện thoại *</label>
-                    <input type="tel" class="form-control" required>
-                  </div>
                 </div>
-
-                <label>Địa chỉ email *</label>
-                <input type="email" class="form-control" required>
-
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="checkout-create-acc">
-                  <label class="custom-control-label" for="checkout-create-acc">Tạo một tài khoản?</label>
-                </div>
-
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="checkout-diff-address">
-                  <label class="custom-control-label" for="checkout-diff-address">Gửi đến địa chỉ khác?</label>
-                </div>
-
+                <label>Địa chỉ nhà *</label>
+                <input type="text" name="diaChi" id="diaChi" class="form-control" placeholder="Số nhà và tên đường" required>
                 <label>Ghi chú đơn hàng (tùy chọn)</label>
                 <textarea class="form-control" cols="30" rows="4" placeholder="Ghi chú về đơn hàng của bạn, ví dụ như ghi chú đặc biệt khi giao hàng..."></textarea>
+                </form>
               </div>
-              <aside class="col-lg-3">
+              <aside class="col-lg-6">
                 <div class="summary">
                   <h3 class="summary-title">Đơn hàng của bạn</h3>
 
@@ -102,7 +67,7 @@
                     <tr th:each="gh:${listGioHangCt}">
                       <td th:text="${gh.sanPhamCT.sanPham.ten}"></td>
                       <td th:text="${gh.soLuong}"></td>
-                      <td th:text="${gh.soLuong*gh.donGia}"></td>
+                      <td th:text="${gh.soLuong*gh.sanPhamCT.gia}"></td>
                     </tr>
                     <tr class="summary-total">
                       <td>Thành tiền:</td>
@@ -111,15 +76,12 @@
                     </tbody>
                   </table>
                   <button type="submit" id="thanhToan" class="btn btn-outline-primary-2 btn-order btn-block">
-                    <a th:href="@{/online/save}">
                       <span class="btn-text">Đặt hàng</span>
                       <span class="btn-hover-text">Tiến hành kiểm tra</span>
-                    </a>
                   </button>
                 </div>
               </aside>
             </div>
-          </form>
         </div>
       </div>
     </div>

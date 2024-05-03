@@ -3066,11 +3066,6 @@ blockquote.text-white cite span {
     color: #333;
 }
 
-/* Header 2 */
-a {
-    font-family: 'Poppins';
-}
-
 p {
     margin-bottom: 0;
     font-size: 1.4rem;
@@ -13612,8 +13607,6 @@ textarea.form-control {
 }
 
 label {
-    color: #666666;
-    font-weight: 300;
     font-size: 1.4rem;
     margin: 0 0 1.1rem;
 }

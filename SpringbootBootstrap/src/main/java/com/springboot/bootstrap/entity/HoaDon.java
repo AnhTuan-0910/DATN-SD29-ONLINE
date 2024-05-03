@@ -47,8 +47,6 @@ public class HoaDon {
     private Date ngayNhan;
     @Column(name = "tinh_trang")
     private Integer tinhTrang;
-    @Column(name = "dia_chi")
-    private String diaChi;
     @Column(name = "tien_ship")
     private Double tienShip;
     @Column(name = "thanh_tien")
@@ -57,5 +55,12 @@ public class HoaDon {
     private Date taoLuc;
     @Column(name = "sua_luc")
     private Date suaLuc;
-
+    @Column(name = "thanh_pho")
+    private String thanhPho;
+    @Column(name = "quan_huyen")
+    private String quanHuyen;
+    @Column(name = "phuong_xa")
+    private String phuongXa;
+    @Column(name = "dia_chi")
+    private String diaChi;
 }

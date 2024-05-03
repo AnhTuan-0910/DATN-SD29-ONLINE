@@ -15,4 +15,9 @@ public class GioHangServiceImpl implements GioHangService {
     public GioHang getIdByIdKh(KhachHang khachHang) {
         return gioHangRepository.findByKhachHang(khachHang);
     }
+
+    @Override
+    public void update(GioHang gioHang) {
+        gioHangRepository.save(gioHang);
+    }
 }

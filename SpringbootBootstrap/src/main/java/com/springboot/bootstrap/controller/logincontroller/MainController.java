@@ -20,4 +20,8 @@ public class MainController {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return "/customer/index";
     }
+    @GetMapping("/about")
+    public String view(){
+        return "/customer/about";
+    }
 }
