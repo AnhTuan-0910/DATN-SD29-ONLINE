@@ -21,7 +21,7 @@ public class SecurityConfig {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
         httpSecurity.csrf((csrf)->csrf.disable());
         httpSecurity.authorizeHttpRequests((authorize)->{
-            authorize.requestMatchers(mvc.pattern("/khach_hang/registration/**")).permitAll();
+            authorize.requestMatchers(mvc.pattern("/khach_hang/**")).permitAll();
             authorize.requestMatchers(mvc.pattern("/khach_hang/profile/**")).hasRole("USER");
             authorize.requestMatchers(mvc.pattern("/js/**")).permitAll();
             authorize.requestMatchers(mvc.pattern("/fe/**")).permitAll();

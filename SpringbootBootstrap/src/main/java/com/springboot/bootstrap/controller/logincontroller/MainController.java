@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
     @GetMapping("/login")
     public String login(Model model){
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return "/customer/login";
     }
     @GetMapping("/")
     public String home(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println(userDetails.getUsername());
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return "/customer/index";
     }
     @GetMapping("/about")

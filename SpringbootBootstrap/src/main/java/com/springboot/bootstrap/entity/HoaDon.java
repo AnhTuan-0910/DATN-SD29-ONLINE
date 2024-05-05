@@ -26,7 +26,6 @@ import java.util.UUID;
 @Table(name = "hoa_don")
 public class HoaDon {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_hoa_don")
     private UUID idHoaDon;
     @ManyToOne
@@ -63,4 +62,8 @@ public class HoaDon {
     private String phuongXa;
     @Column(name = "dia_chi")
     private String diaChi;
+    @Column(name = "hinh_thuc")
+    private String hinhThuc;
+    @Column(name = "ghi_chu")
+    private String ghiChu;
 }

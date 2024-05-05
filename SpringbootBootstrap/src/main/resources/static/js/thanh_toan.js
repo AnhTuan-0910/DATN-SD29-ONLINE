@@ -1,10 +1,10 @@
 $(document).ready(function () {
     $.ajax({
         type : "GET",
-        url : 'https://vnprovinces.pythonanywhere.com/api/provinces',
+        url : 'https://vapi.vnappmob.com/api/province',
         success : function (data){
             data.results.forEach((elem) => {
-                $('#thanhPho').append(`<option value=${elem.id}>${elem.name}</option>`);
+                $('#thanhPho').append(`<option value=${elem.province_id}>${elem.province_name}</option>`);
             })
         },
         error : function (error){
@@ -15,10 +15,11 @@ $(document).ready(function () {
         const id = $('#thanhPho').val();
         $.ajax({
             type:"GET",
-            url:`https://vnprovinces.pythonanywhere.com/api/provinces/`+id,
+            url:`https://vapi.vnappmob.com/api/province/district/`+id,
             success : function (data){
-                data.districts.forEach((elem) => {
-                    $('#quanHuyen').append(`<option value=${elem.id}>${elem.name}</option>`)
+                $('#quanHuyen').empty();
+                data.results.forEach((elem) => {
+                    $('#quanHuyen').append(`<option value=${elem.district_id}>${elem.district_name}</option>`)
                 })
             },
             error : function (error) {
@@ -30,10 +31,11 @@ $(document).ready(function () {
         const id = $('#quanHuyen').val();
         $.ajax({
             type:"GET",
-            url:`https://vnprovinces.pythonanywhere.com/api/districts/`+id,
+            url:`https://vapi.vnappmob.com/api/province/ward/`+id,
             success : function (data){
-                data.wards.forEach((elem) => {
-                    $('#phuongXa').append(`<option value=${elem.id}>${elem.name}</option>`)
+                $('#phuongXa').empty();
+                data.results.forEach((elem) => {
+                    $('#phuongXa').append(`<option value=${elem.ward_id}>${elem.ward_name}</option>`)
                 })
             },
             error : function (error) {
@@ -56,7 +58,7 @@ $(document).ready(function () {
             }),
             dataType: "json",
             success:function (data){
-                if(data.status==200){
+                if(data.success){
                     $('#formThanhToan').submit();
                 }else {
                     Swal.fire({

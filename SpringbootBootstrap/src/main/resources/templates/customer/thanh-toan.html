@@ -14,7 +14,7 @@
       <div class="checkout">
         <div class="container">
           <div class="checkout-discount">
-            <form action="#">
+            <form th:action="@{/thanh_toan/create_hoa_don}" method="post">
               <input type="text" class="form-control" required id="checkout-discount-input">
               <label for="checkout-discount-input" class="text-truncate">Có phiếu giảm giá? <span>Bấm vào đây để nhập mã...</span></label>
             </form>
@@ -47,7 +47,7 @@
                 <label>Địa chỉ nhà *</label>
                 <input type="text" name="diaChi" id="diaChi" class="form-control" placeholder="Số nhà và tên đường" required>
                 <label>Ghi chú đơn hàng (tùy chọn)</label>
-                <textarea class="form-control" cols="30" rows="4" placeholder="Ghi chú về đơn hàng của bạn, ví dụ như ghi chú đặc biệt khi giao hàng..."></textarea>
+                <textarea name="ghiChu" class="form-control" cols="30" rows="4" placeholder="Ghi chú về đơn hàng của bạn, ví dụ như ghi chú đặc biệt khi giao hàng..."></textarea>
                 </form>
               </div>
               <aside class="col-lg-6">

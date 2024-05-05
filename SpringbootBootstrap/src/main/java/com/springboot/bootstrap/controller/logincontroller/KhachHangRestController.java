@@ -1,11 +1,14 @@
 package com.springboot.bootstrap.controller.logincontroller;
 
+import com.springboot.bootstrap.entity.DTO.ValidateChangePasswordRequestDTO;
 import com.springboot.bootstrap.entity.DTO.ValidateDTO;
 import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,8 @@ import java.util.regex.Pattern;
 public class KhachHangRestController {
     @Autowired
     private KhachHangService khachHangService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static String regexPhoneNumber = "(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b";
@@ -62,5 +67,18 @@ public class KhachHangRestController {
             }
         }
         return ValidateDTO.builder().success(true).build();
+    }
+    @PostMapping("/validateChangePassword")
+    public ValidateDTO validateChangePassword(@RequestBody ValidateChangePasswordRequestDTO dto){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        KhachHang khachHang = khachHangService.getOne(userDetails.getUsername());
+        if(dto.getMatKhau().isEmpty()||dto.getMatKhauMoi().isEmpty()){
+            return ValidateDTO.builder().success(false).message("Vui lòng nhập đầy đủ dữ liệu").build();
+        }
+        if(passwordEncoder.matches(dto.getMatKhau(),khachHang.getMatKhau())){
+            return ValidateDTO.builder().success(true).build();
+        }else {
+            return ValidateDTO.builder().success(false).message("Nhập mật khẩu cũ sai").build();
+        }
     }
 }

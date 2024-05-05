@@ -3,13 +3,11 @@ $(document).ready(function (){
         e.preventDefault();
         $.ajax({
             type : 'POST',
-            url : '/khach_hang/validateUpdate',
+            url : '/khach_hang/validateChangePassword',
             processData : false,
             data: JSON.stringify({
-                ten : $('#ten').val(),
-                email : $('#email').val(),
-                ngaySinh:$('#ngaySinh').val(),
-                sdt : $('#sdt').val()
+                matKhau : $('#matKhau').val(),
+                matKhauMoi : $('#matKhauMoi').val(),
             }),
             contentType: "application/json",
             dataType: "json",

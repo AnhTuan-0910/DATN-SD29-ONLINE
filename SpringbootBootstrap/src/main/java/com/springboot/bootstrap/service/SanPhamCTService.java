@@ -11,4 +11,6 @@ public interface SanPhamCTService {
     SanPhamCT getOne(String id);
 
     List<SanPhamCT> findAllBySP(String idSP);
+
+    void save(SanPhamCT sanPhamCT);
 }

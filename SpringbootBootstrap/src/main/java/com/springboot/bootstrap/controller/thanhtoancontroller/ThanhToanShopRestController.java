@@ -38,7 +38,7 @@ public class ThanhToanShopRestController {
     private HoaDonService hoaDonService;
     @PostMapping("/validateThanhToan")
     public ValidateDTO validate(@RequestBody HoaDon hdc){
-        if(hdc.getThanhPho().isEmpty()||hdc.getQuanHuyen().isEmpty()||hdc.getPhuongXa().isEmpty()||hdc.getDiaChi().isEmpty()){
+        if(hdc.getThanhPho().isEmpty()||hdc.getQuanHuyen()==null||hdc.getPhuongXa()==null||hdc.getQuanHuyen().isEmpty()||hdc.getPhuongXa().isEmpty()||hdc.getDiaChi().isEmpty()){
             return ValidateDTO.builder().success(false).message("Vui lòng nhập đầy đủ dữ liệu" ).build();
         }
         Double sumMoney=0.0;
@@ -54,7 +54,7 @@ public class ThanhToanShopRestController {
                 sumMoney+=gioHangChiTiet.getSoLuong()*sanPhamCT.getGia();
             }
         }
-        if(gioHang.getThanhTien()!=sumMoney){
+        if(gioHang.getThanhTien().doubleValue()!=sumMoney){
             return ValidateDTO.builder().success(false).message("Có sản phẩm đã bị thay đổi giá, vui lòng thử lại" ).build();
         }
         return ValidateDTO.builder().success(true).build();

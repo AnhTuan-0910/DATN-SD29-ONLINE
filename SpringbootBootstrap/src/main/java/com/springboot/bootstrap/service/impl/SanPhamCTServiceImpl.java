@@ -24,4 +24,9 @@ public class SanPhamCTServiceImpl implements SanPhamCTService {
     public List<SanPhamCT> findAllBySP(String idSP) {
         return sanPhamCTRepo.findAllBySP(idSP);
     }
+
+    @Override
+    public void save(SanPhamCT sanPhamCT) {
+        sanPhamCTRepo.save(sanPhamCT);
+    }
 }

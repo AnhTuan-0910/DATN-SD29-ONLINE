@@ -1,6 +1,9 @@
 package com.springboot.bootstrap.controller.logincontroller;
 
+import com.google.zxing.qrcode.decoder.Mode;
+import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.KhachHang;
+import com.springboot.bootstrap.service.GioHangService;
 import com.springboot.bootstrap.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Date;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/khach_hang")
 public class KhachHangController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private GioHangService gioHangService;
     @Autowired
     private KhachHangService khachHangService;
 
@@ -38,6 +44,8 @@ public class KhachHangController {
                                       @RequestParam("gioiTinh") Integer gioiTinh,
                                       @RequestParam("sdt") String sdt) {
         KhachHang khachHang = KhachHang.builder().trangThai(1).sdt(sdt).ngaySinh(ngaySinh).gioiTinh(gioiTinh).ten(ten).email(email).matKhau(passwordEncoder.encode(matKhau)).build();
+        GioHang gioHang = GioHang.builder().khachHang(khachHang).build();
+        gioHangService.update(gioHang);
         khachHangService.save(khachHang);
         return "redirect:/registration?success";
     }
@@ -61,5 +69,20 @@ public class KhachHangController {
         khachHang.setSdt(sdt);
         khachHangService.save(khachHang);
         return "redirect:/";
+    }
+    @GetMapping("/changePassword")
+    public String viewChangePassword(Model model){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        KhachHang khachHang = khachHangService.getOne(userDetails.getUsername());
+        model.addAttribute("kh",khachHang);
+        return "/customer/change-password";
+    }
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("matKhauMoi") String matKhauMoi){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        KhachHang khachHang = khachHangService.getOne(userDetails.getUsername());
+        khachHang.setMatKhau(passwordEncoder.encode(matKhauMoi));
+        khachHangService.save(khachHang);
+        return "redirect:/login";
     }
 }
