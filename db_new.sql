@@ -217,7 +217,7 @@ create table hoa_don
     hinh_thuc       int,
     ghi_chu         nvarchar(max),
     quan_huyen      nvarchar(50),
-    tinh_thanh	    nvarchar(50),
+    thanh_pho	    nvarchar(50),
     phuong_xa       nvarchar(50),
     tao_luc         date,
     sua_luc         date,
