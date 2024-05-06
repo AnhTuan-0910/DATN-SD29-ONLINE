@@ -71,7 +71,7 @@ public class HoaDonController {
         return "redirect:/hoa_don/view/"+idHoaDon;
     }
     @PostMapping("/huy")
-    public String huy(@RequestParam("ghiChu") String ghiChu,
+    public String huy(@RequestParam("ghiChuHuy") String ghiChu,
                       @RequestParam("idHoaDon") UUID idHoaDon){
         HoaDon hoaDon = hoaDonService.getOne(idHoaDon);
         hoaDon.setTinhTrang(5);

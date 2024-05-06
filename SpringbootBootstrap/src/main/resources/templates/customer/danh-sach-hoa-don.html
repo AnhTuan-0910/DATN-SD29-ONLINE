@@ -67,6 +67,7 @@
                                                 <span th:case="2">Chờ giao hàng</span>
                                                 <span th:case="3">Đang vận chuyển</span>
                                                 <span th:case="4">Hoàn thành</span>
+                                                <span th:case="5">Đã huỷ</span>
                                             </td>
                                             <td th:text="${hoadon.thanhTien}+' VND'"></td>
                                             <td><a th:href="@{/hoa_don/view/{id}(id=${hoadon.idHoaDon})}">Chi tiết</a></td>
