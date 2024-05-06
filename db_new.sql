@@ -214,6 +214,8 @@ create table hoa_don
     dia_chi         nvarchar(50),
     tien_ship       decimal(20),
     thanh_tien      decimal(20),
+    hinh_thuc       int,
+    ghi_chu         nvarchar(max),	
     tao_luc         date,
     sua_luc         date,
     tao_boi         nvarchar(20),
