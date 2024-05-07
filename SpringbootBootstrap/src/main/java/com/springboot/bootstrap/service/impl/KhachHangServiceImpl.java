@@ -36,9 +36,6 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public void save(KhachHang kh) {
         khachHangRepository.save(kh);
-        KhachHang khachHang = khachHangRepository.findByEmail(kh.getEmail());
-        GioHang gioHang = GioHang.builder().khachHang(khachHang).thanhTien(0.0).build();
-        gioHangRepository.save(gioHang);
     }
 
     @Override

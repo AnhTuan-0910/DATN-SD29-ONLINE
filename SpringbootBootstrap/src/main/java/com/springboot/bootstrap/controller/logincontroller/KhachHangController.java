@@ -44,10 +44,10 @@ public class KhachHangController {
                                       @RequestParam("gioiTinh") Integer gioiTinh,
                                       @RequestParam("sdt") String sdt) {
         KhachHang khachHang = KhachHang.builder().trangThai(1).sdt(sdt).ngaySinh(ngaySinh).gioiTinh(gioiTinh).ten(ten).email(email).matKhau(passwordEncoder.encode(matKhau)).build();
-        GioHang gioHang = GioHang.builder().khachHang(khachHang).build();
-        gioHangService.update(gioHang);
         khachHangService.save(khachHang);
-        return "redirect:/registration?success";
+        GioHang gioHang = GioHang.builder().khachHang(khachHang).thanhTien(0.0).build();
+        gioHangService.update(gioHang);
+        return "redirect:/login";
     }
     @GetMapping("/profile")
     public String view(Model model){
