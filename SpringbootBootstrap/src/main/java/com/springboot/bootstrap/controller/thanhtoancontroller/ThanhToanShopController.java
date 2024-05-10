@@ -4,8 +4,10 @@ import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.GioHangChiTiet;
 import com.springboot.bootstrap.entity.HoaDon;
 import com.springboot.bootstrap.entity.HoaDonChiTiet;
+import com.springboot.bootstrap.entity.HoaDonTimeline;
 import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.entity.SanPhamCT;
+import com.springboot.bootstrap.repository.HoaDonTLRepo;
 import com.springboot.bootstrap.service.GioHangChiTietService;
 import com.springboot.bootstrap.service.GioHangService;
 import com.springboot.bootstrap.service.HoaDonChiTietService;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +46,8 @@ public class ThanhToanShopController {
     private HoaDonChiTietService hoaDonChiTietService;
     @Autowired
     private SanPhamCTService sanPhamCTService;
+    @Autowired
+    private HoaDonTLRepo hoaDonTLRepo;
     @GetMapping("")
     public String view(Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -64,8 +69,15 @@ public class ThanhToanShopController {
         GioHang gioHang = gioHangService.getIdByIdKh(khachHang);
         List<GioHangChiTiet> list = gioHangChiTietService.getListGhct(gioHangService.getIdByIdKh(khachHang));
         UUID uuid = UUID.randomUUID();
-        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(khachHang).phieuGiamGia(null).gia(gioHang.getThanhTien()).tinhTrang(1).thanhTien(0.0).thanhPho(thanhPho).quanHuyen(quanHuyen).phuongXa(phuongXa).diaChi(diaChi).ghiChu(ghiChu).build());
+        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(khachHang).phieuGiamGia(null).gia(gioHang.getThanhTien()).tinhTrang(1).thanhTien(0.0).thanhPho(thanhPho).quanHuyen(quanHuyen).phuongXa(phuongXa).diaChi(diaChi).ghiChu(ghiChu).hinhThuc(1).thanhTien(gioHang.getThanhTien()).build());
         HoaDon hoaDon = hoaDonService.getOne(uuid);
+        HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
+                .hoaDon(hoaDon)
+                .moTa(ghiChu)
+                .nguoiTao(khachHang.getTen())
+                .trangThai(hoaDon.getTinhTrang())
+                .ngayTao(LocalDateTime.now()).build();
+        hoaDonTLRepo.save(hoaDonTimeline);
         for(GioHangChiTiet gioHangChiTiet:list){
             hoaDonChiTietService.add(HoaDonChiTiet.builder().hoaDon(hoaDon).sanPhamChiTiet(gioHangChiTiet.getSanPhamCT()).gia(gioHangChiTiet.getSanPhamCT().getGia()*gioHangChiTiet.getSoLuong()).soLuong(gioHangChiTiet.getSoLuong()).build());
             SanPhamCT sanPhamCT = gioHangChiTiet.getSanPhamCT();

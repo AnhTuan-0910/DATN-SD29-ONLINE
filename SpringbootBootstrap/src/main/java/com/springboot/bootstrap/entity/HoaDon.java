@@ -63,7 +63,7 @@ public class HoaDon {
     @Column(name = "dia_chi")
     private String diaChi;
     @Column(name = "hinh_thuc")
-    private String hinhThuc;
+    private int hinhThuc;
     @Column(name = "ghi_chu")
     private String ghiChu;
 }
