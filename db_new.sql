@@ -54,13 +54,7 @@ create table danh_muc
     sua_boi     nvarchar(20),
 
 )
-create table Anh
-(
-     id_hinh_anh    uniqueidentifier DEFAULT NEWID() primary key,
-     id_san_pham uniqueidentifier,
-     foreign key (id_san_pham) references san_pham (id_san_pham),
-     duong_dan    image,
-)
+
 create table san_pham
 (
     id_san_pham    uniqueidentifier DEFAULT NEWID() primary key,
@@ -97,6 +91,13 @@ create table san_pham_chi_tiet
     tao_boi       nvarchar(20),
     sua_boi       nvarchar(20),
 
+)
+create table Anh
+(
+     id_hinh_anh    uniqueidentifier DEFAULT NEWID() primary key,
+     id_san_pham uniqueidentifier,
+     foreign key (id_san_pham) references san_pham (id_san_pham),
+     duong_dan    image,
 )
 
 create table _role
@@ -240,6 +241,16 @@ create table hoa_don_chi_tiet
     sua_luc             date,
     tao_boi             nvarchar(20),
     sua_boi             nvarchar(20),
+)
+create table lich_su_hoa_don
+(
+    id    uniqueidentifier DEFAULT NEWID() primary key,
+    id_hoa_don    uniqueidentifier,
+    foreign key (id_hoa_don) references hoa_don (id_hoa_don),
+	ngay_tao       varchar(20),
+    nguoi_tao      varchar(20),
+    mo_ta          nvarchar(max),
+
 )
 
 create table khuyen_mai
