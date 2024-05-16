@@ -25,6 +25,8 @@ public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, UUID
 
     List<PhieuGiamGia> findAllByTrangThaiAndGiaTriToiThieuGreaterThanEqualAndGiaTriGiamToiDaLessThanEqual(int trangThai, double giaTriToiThieu, double giaTriGiamToiDa);
 
+    List<PhieuGiamGia> findAllByTrangThaiAndGiaTriToiThieuLessThanEqual(int trangThai, double giaTriToiThieu);
+
     List<PhieuGiamGia> findAllByTrangThai(int trangThai);
 
     @Query("SELECT ms FROM PhieuGiamGia ms WHERE " +

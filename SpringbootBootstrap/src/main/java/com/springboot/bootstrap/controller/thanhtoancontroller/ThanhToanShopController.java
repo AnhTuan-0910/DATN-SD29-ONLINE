@@ -1,13 +1,9 @@
 package com.springboot.bootstrap.controller.thanhtoancontroller;
 
-import com.springboot.bootstrap.entity.GioHang;
-import com.springboot.bootstrap.entity.GioHangChiTiet;
-import com.springboot.bootstrap.entity.HoaDon;
-import com.springboot.bootstrap.entity.HoaDonChiTiet;
-import com.springboot.bootstrap.entity.HoaDonTimeline;
-import com.springboot.bootstrap.entity.KhachHang;
-import com.springboot.bootstrap.entity.SanPhamCT;
+import com.springboot.bootstrap.entity.*;
+import com.springboot.bootstrap.repository.HoaDonRepository;
 import com.springboot.bootstrap.repository.HoaDonTLRepo;
+import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.GioHangChiTietService;
 import com.springboot.bootstrap.service.GioHangService;
 import com.springboot.bootstrap.service.HoaDonChiTietService;
@@ -48,11 +44,20 @@ public class ThanhToanShopController {
     private SanPhamCTService sanPhamCTService;
     @Autowired
     private HoaDonTLRepo hoaDonTLRepo;
+    @Autowired
+    private HoaDonRepository hoaDonRepository;
+    @Autowired
+    private PhieuGiamGiaRepository phieuGiamGiaRepository;
     @GetMapping("")
     public String view(Model model){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         GioHang gioHang = gioHangService.getIdByIdKh(khachHangService.getOne(userDetails.getUsername()));
         List<GioHangChiTiet> list = gioHangChiTietService.getListGhct(gioHang);
+//                PhieuGiamGia phieuGiamGia=phieuGiamGiaRepository.findAllByTrangThai(1);
+        List<PhieuGiamGia> listVoucher = phieuGiamGiaRepository.findAllByTrangThaiAndGiaTriToiThieuLessThanEqual(1, gioHang.getThanhTien());
+        FormatHelper formatHelper=new FormatHelper();
+        model.addAttribute("formatHelper", formatHelper);
+        model.addAttribute("listVoucher", listVoucher);
         model.addAttribute("listGioHangCt", list);
         model.addAttribute("giohang",gioHang);
         model.addAttribute("kh",khachHangService.getOne(userDetails.getUsername()));
@@ -63,13 +68,17 @@ public class ThanhToanShopController {
                          @RequestParam("quanHuyen") String quanHuyen,
                          @RequestParam("phuongXa") String phuongXa,
                          @RequestParam("diaChi") String diaChi,
-                         @RequestParam("ghiChu") String ghiChu){
+                         @RequestParam("ghiChu") String ghiChu,
+                         @RequestParam("voucher") String voucher){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         KhachHang khachHang = khachHangService.getOne(userDetails.getUsername());
         GioHang gioHang = gioHangService.getIdByIdKh(khachHang);
         List<GioHangChiTiet> list = gioHangChiTietService.getListGhct(gioHangService.getIdByIdKh(khachHang));
         UUID uuid = UUID.randomUUID();
-        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(khachHang).phieuGiamGia(null).gia(gioHang.getThanhTien()).tinhTrang(1).thanhTien(0.0).thanhPho(thanhPho).quanHuyen(quanHuyen).phuongXa(phuongXa).diaChi(diaChi).ghiChu(ghiChu).hinhThuc(1).thanhTien(gioHang.getThanhTien()).build());
+        PhieuGiamGia phieuGiamGia=phieuGiamGiaRepository.findByMa(voucher);
+        phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()-1);
+        System.out.println(phieuGiamGia.getSoLuong());
+        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(khachHang).phieuGiamGia(phieuGiamGia).gia(gioHang.getThanhTien()).tinhTrang(1).thanhTien(0.0).thanhPho(thanhPho).quanHuyen(quanHuyen).phuongXa(phuongXa).diaChi(diaChi).ghiChu(ghiChu).hinhThuc(1).thanhTien(gioHang.getThanhTien()).build());
         HoaDon hoaDon = hoaDonService.getOne(uuid);
         HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
                 .hoaDon(hoaDon)

@@ -73,4 +73,62 @@ $(document).ready(function () {
             }
         })
     })
+    $('#saveChangesBtn').on('click', function() {
+        // Lấy giá trị của radio button đã chọn
+        var maVoucher = $('input[name="maVoucher"]:checked').val();
+        console.log(maVoucher);
+        $('#voucher').val(maVoucher)
+        $('#voucher-in-form').val(maVoucher)
+        // Đặt giá trị đó vào trường input voucher trên trang chính
+        var api="http://localhost:8081/thanh_toan/select-voucher"
+        fetch(`${api}?maVoucher=${maVoucher}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                var donVi = data.donVi;
+                var giaTriGiam = data.giaTriGiam;
+                var giaTriGiamToiDa=data.giaTriGiamToiDa;
+                var gia = parseFloat(document.getElementById('gia').innerText); // hoặc lấy từ một nguồn khác
+
+                // Tính giá trị giảm giá và cập nhật HTML
+                var giamGia;
+                var thanhTien;
+                if (donVi === 1) {
+                    giamGia = (gia * giaTriGiam/100);
+                    if (giamGia>=giaTriGiamToiDa){
+                        giamGia=giaTriGiamToiDa;
+                    }
+                } else if (donVi === 2) {
+                    giamGia = giaTriGiam;
+                }
+                thanhTien=gia-giamGia;
+                // Cập nhật nội dung HTML
+                document.getElementById('giamGia').innerText ='-' + giamGia;
+                document.getElementById('thanhTien').innerText= thanhTien;
+            })
+            .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+    // const urlParams = new URLSearchParams(window.location.search);
+    // $('#voucher').val(urlParams.get('voucher'));
+    const searchInputVoucher = document.getElementById("searchInputVoucher");
+    const vouchers = Array.from(document.getElementsByClassName("card-voucher"));
+    searchInputVoucher.addEventListener("input", function () {
+        const searchTerm = searchInputVoucher.value.trim().toLowerCase();
+        vouchers.forEach(function (voucher) {
+            const voucherCardId = voucher.id;
+            const maVoucher = document.querySelector("#" + voucherCardId + " .modal-maVoucher").textContent.trim().toLowerCase();
+            const tenVoucher = document.querySelector("#" + voucherCardId + " .modal-tenVoucher").textContent.trim().toLowerCase();
+            // const description = voucher.querySelector(".voucher-description").textContent.trim().toLowerCase();
+            const isVisible = maVoucher.includes(searchTerm) || tenVoucher.includes(searchTerm);
+
+            if (isVisible) {
+                voucher.style.display = "block";
+            } else {
+                voucher.style.display = "none";
+            }
+        });
+    })
 })
+
