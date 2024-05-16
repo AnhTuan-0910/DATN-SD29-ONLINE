@@ -1,5 +1,6 @@
 package com.springboot.bootstrap.controller.thanhtoancontroller;
 
+import com.springboot.bootstrap.entity.FormatHelper;
 import com.springboot.bootstrap.entity.GioHang;
 import com.springboot.bootstrap.entity.GioHangChiTiet;
 import com.springboot.bootstrap.entity.HoaDon;
@@ -55,6 +56,7 @@ public class ThanhToanShopController {
         List<GioHangChiTiet> list = gioHangChiTietService.getListGhct(gioHang);
         model.addAttribute("listGioHangCt", list);
         model.addAttribute("giohang",gioHang);
+        model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("kh",khachHangService.getOne(userDetails.getUsername()));
         return "/customer/thanh-toan";
     }
@@ -69,7 +71,7 @@ public class ThanhToanShopController {
         GioHang gioHang = gioHangService.getIdByIdKh(khachHang);
         List<GioHangChiTiet> list = gioHangChiTietService.getListGhct(gioHangService.getIdByIdKh(khachHang));
         UUID uuid = UUID.randomUUID();
-        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(khachHang).phieuGiamGia(null).gia(gioHang.getThanhTien()).tinhTrang(1).thanhTien(0.0).thanhPho(thanhPho).quanHuyen(quanHuyen).phuongXa(phuongXa).diaChi(diaChi).ghiChu(ghiChu).hinhThuc(1).thanhTien(gioHang.getThanhTien()).build());
+        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(khachHang).phieuGiamGia(null).gia(gioHang.getThanhTien()).tinhTrang(1).thanhTien(0.0).thanhPho(thanhPho).quanHuyen(quanHuyen).phuongXa(phuongXa).diaChi(diaChi).ghiChu(ghiChu).hinhThuc(1).thanhTien(gioHang.getThanhTien()).taoLuc(LocalDateTime.now()).build());
         HoaDon hoaDon = hoaDonService.getOne(uuid);
         HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
                 .hoaDon(hoaDon)

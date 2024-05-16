@@ -5,6 +5,11 @@ $(document).ready(function () {
 
 
 });
+function formatCurrency(value) {
+    var number = Number(value);
+    var formattedNumber = number.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return formattedNumber + ' VNĐ';
+}
 
 function finTop6SPBC() {
     var url = '/spOnl/top6SPBC';
@@ -26,14 +31,14 @@ function finTop6SPBC() {
                         type: 'GET',
                         url: '/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
-                            minPrice = dgmin;
+                            minPrice = formatCurrency(dgmin);
                         }
                     });
                     $.ajax({
                         type: 'GET',
                         url: '/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
-                            maxPrice = dgmax;
+                            maxPrice = formatCurrency(dgmax);
                         }
                     });
                     $.ajax({
@@ -73,7 +78,7 @@ function finTop6SPBC() {
             <div class="product-body">
                 <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
                 <div class="product-price">
-                 ${minPrice}₫ - ${maxPrice}₫
+                 ${minPrice} - ${maxPrice}
                 </div>
             </div>
         
@@ -126,14 +131,14 @@ function finTop6SPNew() {
                         type: 'GET',
                         url: '/spOnl/gia_min?id=' + sp.id,
                         success: function (dgmin) {
-                            minPrice = dgmin;
+                            minPrice = formatCurrency(dgmin);
                         }
                     });
                     $.ajax({
                         type: 'GET',
                         url: '/spOnl/gia_max?id=' + sp.id,
                         success: function (dgmax) {
-                            maxPrice = dgmax;
+                            maxPrice = formatCurrency(dgmax);
                         }
                     });
                     $.ajax({
@@ -174,7 +179,7 @@ function finTop6SPNew() {
             <div class="product-body">
                 <h3 class="product-title"><a style="text-decoration: none" href="/spOnl/detailSP/${sp.id}">${sp.ten} ${sp.thuongHieu.ten}</a></h3>
                 <div class="product-price">
-                 ${minPrice}₫ - ${maxPrice}₫
+                 ${minPrice} - ${maxPrice}
                 </div>
             </div>
         

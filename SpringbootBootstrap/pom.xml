@@ -41,6 +41,7 @@
 			<artifactId>mssql-jdbc</artifactId>
 			<version>9.4.1.jre16</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
@@ -89,6 +90,16 @@
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
+		<dependency>
+			<artifactId>tinycolor2</artifactId>
+			<groupId>org.webjars.npm</groupId>
+			<version>1.4.2</version>
+		</dependency>
+		<dependency>
+			<artifactId>webjars-locator</artifactId>
+			<groupId>org.webjars</groupId>
+			<version>0.34</version>
 		</dependency>
 	</dependencies>
 

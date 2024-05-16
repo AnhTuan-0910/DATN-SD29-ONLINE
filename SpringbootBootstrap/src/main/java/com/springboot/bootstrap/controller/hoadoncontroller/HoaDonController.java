@@ -1,11 +1,13 @@
 package com.springboot.bootstrap.controller.hoadoncontroller;
 
+import com.springboot.bootstrap.entity.FormatHelper;
 import com.springboot.bootstrap.entity.HoaDon;
 import com.springboot.bootstrap.entity.HoaDonChiTiet;
 import com.springboot.bootstrap.entity.KhachHang;
 import com.springboot.bootstrap.service.HoaDonChiTietService;
 import com.springboot.bootstrap.service.HoaDonService;
 import com.springboot.bootstrap.service.KhachHangService;
+import com.springboot.bootstrap.utility.FormatDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,6 +34,8 @@ public class HoaDonController {
     @Autowired
     private KhachHangService khachHangService;
     @Autowired
+    private FormatDate formatDate;
+    @Autowired
     private HoaDonChiTietService hoaDonChiTietService;
     @GetMapping("/getListHoaDon")
     public String getListHoaDon(Model model, @RequestParam("p") Optional<Integer> p){
@@ -40,6 +44,8 @@ public class HoaDonController {
         List<HoaDon> list = hoaDonService.getListHoaDon(khachHang);
         Page<HoaDon> page = new PageImpl(list, PageRequest.of(p.orElse(0), 5), list.size());
         model.addAttribute("listHoaDon",page);
+        model.addAttribute("formatHelper",new FormatHelper());
+        model.addAttribute("formatDate",formatDate);
         return "/customer/danh-sach-hoa-don";
     }
     @GetMapping("/view/{id}")
@@ -48,6 +54,8 @@ public class HoaDonController {
         List<HoaDonChiTiet> list = hoaDonChiTietService.getListHoaDonChiTiet(hoaDonService.getOne(id));
         Page<HoaDonChiTiet> page = new PageImpl(list,PageRequest.of(p.orElse(0), 5),list.size());
         model.addAttribute("listHoaDonChiTiet",page);
+        model.addAttribute("formatHelper",new FormatHelper());
+        model.addAttribute("formatDate",formatDate);
         return "/customer/hoa-don-chi-tiet";
     }
     @GetMapping("/search")

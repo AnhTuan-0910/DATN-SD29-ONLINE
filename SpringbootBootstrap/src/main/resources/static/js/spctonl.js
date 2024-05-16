@@ -8,10 +8,8 @@ $(document).ready(function () {
 });
 function formatCurrency(value) {
     var number = Number(value);
-
-    // Sử dụng phương thức toLocaleString để định dạng số tiền
-    // Với cấu hình mặc định, phương thức này sẽ định dạng số tiền dựa trên cài đặt ngôn ngữ và quốc gia của người dùng
-    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    var formattedNumber = number.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return formattedNumber + ' VNĐ';
 }
 
 function findOneSP() {

@@ -67,11 +67,11 @@
                     <tr th:each="gh:${listGioHangCt}">
                       <td th:text="${gh.sanPhamCT.sanPham.ten}"></td>
                       <td th:text="${gh.soLuong}"></td>
-                      <td th:text="${gh.soLuong*gh.sanPhamCT.gia}"></td>
+                      <td th:text="${gh!=null?formatHelper.formatCurrency(gh.soLuong*gh.sanPhamCT.gia):''}+' VNĐ'"></td>
                     </tr>
                     <tr class="summary-total">
                       <td>Thành tiền:</td>
-                      <td th:text="${giohang?.thanhTien}"></td>
+                      <td th:text="${giohang!=null?formatHelper.formatCurrency(giohang.thanhTien):''}+' VNĐ'"></td>
                     </tr>
                     </tbody>
                   </table>
