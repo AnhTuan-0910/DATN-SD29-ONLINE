@@ -1,26 +1,24 @@
 package com.springboot.bootstrap.controller.thanhtoancontroller;
 
+import com.springboot.bootstrap.entity.*;
 import com.springboot.bootstrap.entity.DTO.ValidateDTO;
-import com.springboot.bootstrap.entity.GioHang;
-import com.springboot.bootstrap.entity.GioHangChiTiet;
-import com.springboot.bootstrap.entity.HoaDon;
-import com.springboot.bootstrap.entity.HoaDonChiTiet;
-import com.springboot.bootstrap.entity.KhachHang;
-import com.springboot.bootstrap.entity.SanPhamCT;
+import com.springboot.bootstrap.repository.PhieuGiamGiaRepository;
 import com.springboot.bootstrap.service.GioHangChiTietService;
 import com.springboot.bootstrap.service.GioHangService;
 import com.springboot.bootstrap.service.HoaDonChiTietService;
 import com.springboot.bootstrap.service.HoaDonService;
 import com.springboot.bootstrap.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -36,6 +34,19 @@ public class ThanhToanShopRestController {
     private HoaDonChiTietService hoaDonChiTietService;
     @Autowired
     private HoaDonService hoaDonService;
+    @Autowired
+    private PhieuGiamGiaRepository phieuGiamGiaRepository;
+
+    @GetMapping("/select-voucher")
+    public ResponseEntity<PhieuGiamGia> selectVoucher(@RequestParam(value = "maVoucher", required = false)  String maVoucher){
+        PhieuGiamGia phieuGiamGia= phieuGiamGiaRepository.findByMa(maVoucher);
+        if (phieuGiamGia != null) {
+            return ResponseEntity.ok(phieuGiamGia);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/validateThanhToan")
     public ValidateDTO validate(@RequestBody HoaDon hdc){
         if(hdc.getThanhPho().isEmpty()||hdc.getQuanHuyen()==null||hdc.getPhuongXa()==null||hdc.getQuanHuyen().isEmpty()||hdc.getPhuongXa().isEmpty()||hdc.getDiaChi().isEmpty()){
