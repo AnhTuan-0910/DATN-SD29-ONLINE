@@ -25,6 +25,9 @@ public class SecurityConfig {
             authorize.requestMatchers(mvc.pattern("/khach_hang/profile/**")).hasRole("USER");
             authorize.requestMatchers(mvc.pattern("/js/**")).permitAll();
             authorize.requestMatchers(mvc.pattern("/fe/**")).permitAll();
+            authorize.requestMatchers(mvc.pattern("/fe/**")).permitAll();
+            authorize.requestMatchers(mvc.pattern("/resources/**")).permitAll();
+            authorize.requestMatchers(mvc.pattern("/static/**")).permitAll();
             authorize.requestMatchers(mvc.pattern("/css/**")).permitAll();
             authorize.requestMatchers(mvc.pattern("/img/**")).permitAll();
             authorize.requestMatchers(mvc.pattern("/home/**")).permitAll();

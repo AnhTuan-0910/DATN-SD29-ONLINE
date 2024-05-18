@@ -88,7 +88,7 @@ $(document).ready(function () {
                 var donVi = data.donVi;
                 var giaTriGiam = data.giaTriGiam;
                 var giaTriGiamToiDa=data.giaTriGiamToiDa;
-                var gia = parseFloat(document.getElementById('gia').innerText); // hoặc lấy từ một nguồn khác
+                var gia = parseFloat(document.getElementById('gia').innerText);
 
                 // Tính giá trị giảm giá và cập nhật HTML
                 var giamGia;
@@ -110,8 +110,47 @@ $(document).ready(function () {
             console.error('Error:', error);
         });
     });
-    // const urlParams = new URLSearchParams(window.location.search);
-    // $('#voucher').val(urlParams.get('voucher'));
+    // $('#voucher').on('change', function() {
+    //     //lấy giá trị nhập vào input
+    //     const maVoucher = $('#voucher').val().trim().toLowerCase();
+    //     console.log(maVoucher);
+    //     if (maVoucher!=null){
+    //         // $('#voucher-in-form').val(maVoucher);
+    //         // Đặt giá trị đó vào trường input voucher trên trang chính
+    //             var api="http://localhost:8081/thanh_toan/select-voucher"
+    //             fetch(`${api}?maVoucher=${maVoucher}`)
+    //                 .then(response => response.json())
+    //                 .then(data => {
+    //                     if (data!=null){
+    //                         console.log(data);
+    //                         var donVi = data.donVi;
+    //                         var giaTriGiam = data.giaTriGiam;
+    //                         var giaTriGiamToiDa=data.giaTriGiamToiDa;
+    //                         var gia = parseFloat(document.getElementById('gia').innerText);
+    //
+    //                         // Tính giá trị giảm giá và cập nhật HTML
+    //                         var giamGia;
+    //                         var thanhTien;
+    //                         if (donVi === 1) {
+    //                             giamGia = (gia * giaTriGiam/100);
+    //                             if (giamGia>=giaTriGiamToiDa){
+    //                                 giamGia=giaTriGiamToiDa;
+    //                             }
+    //                         } else if (donVi === 2) {
+    //                             giamGia = giaTriGiam;
+    //                         }
+    //                         thanhTien=gia-giamGia;
+    //                         // Cập nhật nội dung HTML
+    //                         document.getElementById('giamGia').innerText ='-' + giamGia;
+    //                         document.getElementById('thanhTien').innerText= thanhTien;
+    //                     }
+    //                 })
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
+    // });
     const searchInputVoucher = document.getElementById("searchInputVoucher");
     const vouchers = Array.from(document.getElementsByClassName("card-voucher"));
     searchInputVoucher.addEventListener("input", function () {

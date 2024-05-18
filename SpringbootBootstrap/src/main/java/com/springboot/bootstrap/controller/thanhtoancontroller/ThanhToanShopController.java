@@ -77,10 +77,11 @@ public class ThanhToanShopController {
         List<GioHangChiTiet> list = gioHangChiTietService.getListGhct(gioHangService.getIdByIdKh(khachHang));
         UUID uuid = UUID.randomUUID();
         PhieuGiamGia phieuGiamGia=phieuGiamGiaRepository.findByMa(voucher);
-        phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()-1);
+
         Double thanhTienAdd=gioHang.getThanhTien();
         //thanh tien=gia - gia giam
         if (phieuGiamGia!=null){
+            phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()-1);
             if (phieuGiamGia.getDonVi()==1){
                 thanhTienAdd=gioHang.getThanhTien()*((100-phieuGiamGia.getGiaTriGiam())/100);
                 if (gioHang.getThanhTien()*(phieuGiamGia.getGiaTriGiam()/100)>phieuGiamGia.getGiaTriGiamToiDa()){
