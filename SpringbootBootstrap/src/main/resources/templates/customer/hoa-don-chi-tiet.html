@@ -213,10 +213,10 @@
                                         <tr th:each="hoadonchitiet:${listHoaDonChiTiet}">
                                             <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.sanPham.ma}:''"></td>
                                             <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.sanPham.ten}:''"></td>
-                                            <td class="badge" th:style="'background-color:'+${hoadonchitiet.sanPhamChiTiet.mauSac.ten}" th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.mauSac.ten}:''"></td>
+                                            <td ><span class="badge" th:style="'background-color:'+${hoadonchitiet.sanPhamChiTiet.mauSac.ten}" th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.mauSac.ten}:''"></span></td>
                                             <td th:text="${hoadonchitiet.sanPhamChiTiet}?${hoadonchitiet.sanPhamChiTiet.kichThuoc.ten}:''"></td>
                                             <td th:text="${hoadonchitiet.soLuong}"></td>
-                                            <td th:text="${hoadonchitiet.gia}"></td>
+                                            <td th:text="${hoadonchitiet!=null?formatHelper.formatCurrency(hoadonchitiet.gia):''}+' VNĐ'"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -255,16 +255,16 @@
                         </div>
                         <div style="width: 50%">
                             <div>
-                                <p>Tổng tiền : <span th:text="${hoaDon.gia}"></span></p>
+                                <p>Tổng tiền : <span th:text="${hoaDon!=null?formatHelper.formatCurrency(hoaDon.gia):''}+' VNĐ'"></span></p>
                             </div>
                             <div>
                                 <p>Voucher : <span th:text="${hoaDon.phieuGiamGia==null?'':hoaDon.phieuGiamGia.ma}"></span></p>
                             </div>
                             <div>
-                                <p>Giá trị giảm : <span th:text="${hoaDon.gia-hoaDon.thanhTien}"></span></p>
+                                <p>Giá trị giảm : <span th:text="${hoaDon!=null?formatHelper.formatCurrency(hoaDon.gia-hoaDon.thanhTien):''}+' VNĐ'"></span></p>
                             </div>
                             <div>
-                                <p>Thành tiền : <span th:text="${hoaDon.thanhTien}"></span></p>
+                                <p>Thành tiền : <span th:text="${hoaDon!=null?formatHelper.formatCurrency(hoaDon.thanhTien):''}+' VNĐ'"></span></p>
                             </div>
                         </div>
                     </div>

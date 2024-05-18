@@ -60,8 +60,8 @@
                                         <tr th:each="hoadon:${listHoaDon}" th:scope="row">
                                             <td th:text="${hoadon.ma}"></td>
                                             <td th:text="${hoadon.khachHang?.ten}"></td>
-                                            <td th:text="${hoadon.taoLuc}"></td>
-                                            <td th:text="${hoadon.gia}+' VND'"></td>
+                                            <td th:text="${hoadon.taoLuc!=null?formatDate.formatDateTime(hoadon.taoLuc):''}"></td>
+                                            <td th:text="${hoadon!=null?formatHelper.formatCurrency(hoadon.gia):''}+' VNĐ'"></td>
                                             <td th:switch="${hoadon.tinhTrang}">
                                                 <span th:case="1">Chờ xác nhận</span>
                                                 <span th:case="2">Chờ giao hàng</span>
@@ -69,7 +69,7 @@
                                                 <span th:case="4">Hoàn thành</span>
                                                 <span th:case="5">Đã huỷ</span>
                                             </td>
-                                            <td th:text="${hoadon.thanhTien}+' VND'"></td>
+                                            <td th:text="${hoadon!=null?formatHelper.formatCurrency(hoadon.thanhTien):''}+' VNĐ'"></td>
                                             <td><a th:href="@{/hoa_don/view/{id}(id=${hoadon.idHoaDon})}">Chi tiết</a></td>
                                         </tr>
                                         </tbody>

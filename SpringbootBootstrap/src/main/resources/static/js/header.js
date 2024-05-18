@@ -14,7 +14,8 @@ $(document).ready(function () {
 
 function formatCurrency(value) {
     var number = Number(value);
-    return number.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
+    var formattedNumber = number.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return formattedNumber + ' VNĐ';
 }
 
 function getSLAndDGGHCT() {

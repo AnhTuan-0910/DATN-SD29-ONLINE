@@ -60,6 +60,7 @@ public class ThanhToanShopController {
         model.addAttribute("listVoucher", listVoucher);
         model.addAttribute("listGioHangCt", list);
         model.addAttribute("giohang",gioHang);
+        model.addAttribute("formatHelper",new FormatHelper());
         model.addAttribute("kh",khachHangService.getOne(userDetails.getUsername()));
         return "/customer/thanh-toan";
     }
