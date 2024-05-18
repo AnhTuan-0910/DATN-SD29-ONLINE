@@ -77,8 +77,20 @@ public class ThanhToanShopController {
         UUID uuid = UUID.randomUUID();
         PhieuGiamGia phieuGiamGia=phieuGiamGiaRepository.findByMa(voucher);
         phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()-1);
-        System.out.println(phieuGiamGia.getSoLuong());
-        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(khachHang).phieuGiamGia(phieuGiamGia).gia(gioHang.getThanhTien()).tinhTrang(1).thanhTien(0.0).thanhPho(thanhPho).quanHuyen(quanHuyen).phuongXa(phuongXa).diaChi(diaChi).ghiChu(ghiChu).hinhThuc(1).thanhTien(gioHang.getThanhTien()).build());
+        Double thanhTienAdd=gioHang.getThanhTien();
+        //thanh tien=gia - gia giam
+        if (phieuGiamGia!=null){
+            if (phieuGiamGia.getDonVi()==1){
+                thanhTienAdd=gioHang.getThanhTien()*((100-phieuGiamGia.getGiaTriGiam())/100);
+                if (gioHang.getThanhTien()*(phieuGiamGia.getGiaTriGiam()/100)>phieuGiamGia.getGiaTriGiamToiDa()){
+                    thanhTienAdd=gioHang.getThanhTien()-phieuGiamGia.getGiaTriGiamToiDa();
+                }
+            }
+            if (phieuGiamGia.getDonVi()==2){
+                thanhTienAdd=gioHang.getThanhTien()-phieuGiamGia.getGiaTriGiam();
+            }
+        }
+        hoaDonService.add(HoaDon.builder().idHoaDon(uuid).khachHang(khachHang).phieuGiamGia(phieuGiamGia).gia(gioHang.getThanhTien()).tinhTrang(1).thanhTien(0.0).thanhPho(thanhPho).quanHuyen(quanHuyen).phuongXa(phuongXa).diaChi(diaChi).ghiChu(ghiChu).hinhThuc(1).thanhTien(thanhTienAdd).build());
         HoaDon hoaDon = hoaDonService.getOne(uuid);
         HoaDonTimeline hoaDonTimeline= HoaDonTimeline.builder()
                 .hoaDon(hoaDon)
