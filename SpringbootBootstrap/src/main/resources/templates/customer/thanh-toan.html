@@ -99,16 +99,16 @@
         <div class="modal fade" id="selectVoucherModal" tabindex="-1"
              aria-labelledby="exampleModalLabel"
              aria-hidden="true">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title m-auto" id="exampleModalLabel">Voucher</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
                     </div>
                     <div class="modal-body">
                         <div class="d-flex justify-content-end" style="width: 100%">
                             <input type="text" th:id="searchInputVoucher" placeholder="Tìm Kiếm">
-                            <button class="btn btn-primary mx-2"><i data-feather="search"></i>Search</button>
+                            <button class="btn btn-primary mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
                         </div>
                         <form id="voucherForm" class="pl-5"
                               method="post">
