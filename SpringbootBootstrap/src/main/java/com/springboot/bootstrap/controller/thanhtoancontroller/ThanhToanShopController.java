@@ -119,7 +119,7 @@ public class ThanhToanShopController {
                 .ngayTao(LocalDateTime.now()).build();
         hoaDonTLRepo.save(hoaDonTimeline);
         for(GioHangChiTiet gioHangChiTiet:list){
-            hoaDonChiTietService.add(HoaDonChiTiet.builder().hoaDon(hoaDon).sanPhamChiTiet(gioHangChiTiet.getSanPhamCT()).gia(gioHangChiTiet.getSanPhamCT().getGia()*gioHangChiTiet.getSoLuong()).soLuong(gioHangChiTiet.getSoLuong()).build());
+            hoaDonChiTietService.add(HoaDonChiTiet.builder().hoaDon(hoaDon).sanPhamChiTiet(gioHangChiTiet.getSanPhamCT()).gia(gioHangChiTiet.getSanPhamCT().getGia()).soLuong(gioHangChiTiet.getSoLuong()).build());
             SanPhamCT sanPhamCT = gioHangChiTiet.getSanPhamCT();
             sanPhamCT.setSl(sanPhamCT.getSl()-gioHangChiTiet.getSoLuong());
             sanPhamCTService.save(sanPhamCT);

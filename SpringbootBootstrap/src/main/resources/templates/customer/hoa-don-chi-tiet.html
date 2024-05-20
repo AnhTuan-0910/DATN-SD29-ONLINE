@@ -229,7 +229,7 @@
                                                 </div>
                                             </td>
                                             <td th:text="${hoadonchitiet.soLuong}"></td>
-                                            <td th:text="${hoadonchitiet!=null?formatHelper.formatCurrency(hoadonchitiet.gia):''}+' VNĐ'"></td>
+                                            <td th:text="${hoadonchitiet!=null?formatHelper.formatCurrency(hoadonchitiet.sanPhamChiTiet.gia*hoadonchitiet.soLuong):''}+' VNĐ'"></td>
                                         </tr>
                                         </tbody>
                                     </table>
