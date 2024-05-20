@@ -44,7 +44,7 @@
                                                 <h3 class="product-title">
                                                     <a th:href="@{'/spOnl/detailSP/'+${x.sanPhamCT.sanPham.id}}"
                                                        th:text="${x.sanPhamCT.sanPham.ten}"></a>
-                                                    <div>Màu:<span th:text="${x.sanPhamCT.mauSac.ten}" th:style="'background-color:'+${x.sanPhamCT.mauSac.ten}" class="badge"></span></div>
+                                                    <div>Màu:<span class="badge" th:style="'background-color:'+${x.sanPhamCT.mauSac.ten}+';min-height: 10px;min-width: 50px'" >  </span></div>
                                                     <div th:text="'Size'+${x.sanPhamCT.kichThuoc.ten}"></div>
                                                 </h3>
                                             </div>

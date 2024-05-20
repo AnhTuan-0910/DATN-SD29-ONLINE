@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/thanh_toan")
@@ -37,6 +38,8 @@ public class ThanhToanShopRestController {
     @Autowired
     private PhieuGiamGiaRepository phieuGiamGiaRepository;
 
+    private static String regexPhoneNumber = "(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\\b";
+
     @GetMapping("/select-voucher")
     public ResponseEntity<PhieuGiamGia> selectVoucher(@RequestParam(value = "maVoucher", required = false)  String maVoucher){
         PhieuGiamGia phieuGiamGia= phieuGiamGiaRepository.findByMa(maVoucher);
@@ -49,9 +52,10 @@ public class ThanhToanShopRestController {
 
     @PostMapping("/validateThanhToan")
     public ValidateDTO validate(@RequestBody HoaDon hdc){
-        if(hdc.getThanhPho().isEmpty()||hdc.getQuanHuyen()==null||hdc.getPhuongXa()==null||hdc.getQuanHuyen().isEmpty()||hdc.getPhuongXa().isEmpty()||hdc.getDiaChi().isEmpty()){
+        if(hdc.getThanhPho().isEmpty()||hdc.getSdt()==null||hdc.getQuanHuyen()==null||hdc.getPhuongXa()==null||hdc.getQuanHuyen().isEmpty()||hdc.getPhuongXa().isEmpty()||hdc.getDiaChi().isEmpty()){
             return ValidateDTO.builder().success(false).message("Vui lòng nhập đầy đủ dữ liệu" ).build();
-        }
+        } else if(!hdc.getSdt().matches(regexPhoneNumber)){
+            return ValidateDTO.builder().success(false).message("Vui lòng nhập đúng định dạnh sdt").build();}
         Double sumMoney=0.0;
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         KhachHang khachHang = khachHangService.getOne(userDetails.getUsername());

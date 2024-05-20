@@ -20,9 +20,16 @@
                         <div class="col-lg-6">
                             <form id="formThanhToan" th:action="@{/thanh_toan/create_hoa_don}" method="POST">
                                 <h2 class="checkout-title">Chi tiết thanh toán</h2>
-                                <label>Tên</label>
-                                <input type="text" th:value="${kh.ten}" class="form-control" disabled>
+
                                 <div class="row">
+                                    <div class="col-sm-6" >
+                                        <label>Tên</label>
+                                        <input type="text" th:value="${kh.ten}" class="form-control" disabled>
+                                    </div>
+                                    <div class="col-sm-6" >
+                                        <label>Số điện thoại</label>
+                                        <input type="text" name="sdt" id="sdt" class="form-control" >
+                                    </div>
                                     <div class="col-sm-6">
                                         <label>Thị trấn / Thành phố *</label> <br/>
                                         <select class="form-control" name="thanhPho" id="thanhPho"></select>
@@ -63,7 +70,25 @@
 
                                     <tbody>
                                     <tr th:each="gh:${listGioHangCt}">
-                                        <td th:text="${gh.sanPhamCT.sanPham.ten}"></td>
+                                        <td class="row">
+                                            <div class="d-inline-block">
+                                                <img style="max-height: 70px;max-width: 70px;min-height: 70px;min-width: 70px"
+                                                     th:src="'data:image/jpeg;base64,'+ ${base64Image.bytesToBase64(mapAnhSanPham[gh.sanPhamCT.sanPham.id].data)}"
+                                                     alt="Product image">
+                                            </div>
+                                            <div class="d-inline-block" style="padding-left: 10px">
+
+                                                <div><span th:text="${gh.sanPhamCT.sanPham.ten}"></span></div>
+                                                <div><span th:text="'size:'+${gh.sanPhamCT.kichThuoc.ten}"></span></div>
+                                                <div>
+                                                    <p>color:
+                                                        <span class="badge "
+                                                              th:style="'background-color:'+${gh.sanPhamCT.mauSac.ten}+';min-height: 10px;min-width: 50px'">
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td th:text="${gh.soLuong}"></td>
                                         <td th:text="${gh!=null?formatHelper.formatCurrency(gh.soLuong*gh.sanPhamCT.gia):''}+' VNĐ'"></td>
                                     </tr>
@@ -72,7 +97,7 @@
                                         <td th:id="gia" th:text="${giohang?.thanhTien}"></td>
                                     </tr>
                                     <tr>
-                                        <td><input id="voucher" class="form-control" placeholder="Chọn Voucher" readonly></td>
+                                        <td><input id="voucher" class="form-control" placeholder="Chọn Voucher"></td>
                                         <td class="pl-5"><btn class="text-primary btn btn-outline-success form-control" data-bs-toggle="modal" data-bs-target="#selectVoucherModal" type="button">Chọn Voucher</btn></td>
                                     </tr>
                                     <tr class="summary-total">
@@ -132,6 +157,7 @@
                                             </div>
                                         </div>
                                     </label>
+                                    <!--                                            <input name="voucher" th:value="" hidden>-->
                                 </div>
                             </div>
                             <button type="button" class="mt-1 mb-1 btn btn-primary d-block m-auto"

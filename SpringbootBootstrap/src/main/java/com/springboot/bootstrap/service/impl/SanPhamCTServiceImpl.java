@@ -12,6 +12,11 @@ import java.util.List;
 
 @Service
 public class SanPhamCTServiceImpl implements SanPhamCTService {
+    @Override
+    public void add(SanPhamCT sanPhamCT) {
+        sanPhamCTRepo.save(sanPhamCT);
+    }
+
     @Autowired
     private SanPhamCTRepo sanPhamCTRepo;
 

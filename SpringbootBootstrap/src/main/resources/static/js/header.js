@@ -59,7 +59,7 @@ function findAllGH(page) {
                                         <a href="/spOnl/detailSP/${ghct.sanPhamCT.sanPham.id}">${ghct.sanPhamCT.sanPham.ten}</a>
                                     </h4>
                                         <div >
-                                                Màu:<div  style="background-color:${ghct.sanPhamCT.mauSac.ten}" class="badge">${ghct.sanPhamCT.mauSac.ten}</div>
+                                                Màu:<span class="badge"  style="background-color:${ghct.sanPhamCT.mauSac.ten};min-height: 10px;min-width: 50px" > </span>
                                         </div>
                                         <div >
                                                <span class="cart-product-qty">Size:${ghct.sanPhamCT.kichThuoc.ten} - SL:${ghct.soLuong}</span>
